@@ -1,0 +1,10 @@
+Package: com.yourepo.apladdict.hs13
+Name: HS13
+Depends: mobilesubstrate
+Architecture: iphoneos-arm
+Description: A smooth fully customizable XenHTML widget.
+Maintainer: AplAddict <izip14@gmail.com>
+Author: AplAddict <izip14@gmail.com>
+Section: Widgets
+Version: 1.7
+Installed-Size: 5296
