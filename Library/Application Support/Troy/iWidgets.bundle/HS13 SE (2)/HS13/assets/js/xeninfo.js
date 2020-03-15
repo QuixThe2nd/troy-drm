@@ -28,9 +28,9 @@ function mainUpdate(type) {
                 document.getElementById('playing').style.display = 'block';
             }
             if (stockIcons) {
-                document.getElementById('play').src = '../assets/imagespause_stock.png';
+                document.getElementById('play').src = '../HS13/assets/stock/pause.png';
             } else {
-                document.getElementById('play').src = '../assets/images/pause.png';
+                document.getElementById('play').src = '../HS13/assets/pause.png';
             }
             document.getElementById('title').innerHTML = "&nbsp;&nbsp;" + title;
             document.getElementById('line2').innerHTML = "&nbsp;" + artist + "<br>&nbsp;" + album;
@@ -66,9 +66,9 @@ function mainUpdate(type) {
             }
             document.getElementById('playing').style.display = 'none';
             if (stockIcons) {
-                document.getElementById('play').src = '../assets/images/play_stock.png';
+                document.getElementById('play').src = '../HS13/assets/stock/play.png';
             } else {
-                document.getElementById('play').src = '../assets/images/play.png';
+                document.getElementById('play').src = '../HS13/assets/play.png';
             }
             document.getElementById('title').innerHTML = "&nbsp;&nbsp;Music";
             document.getElementById('line2').innerHTML = "<br /><br />";
@@ -97,7 +97,7 @@ function mainUpdate(type) {
 
             document.getElementById('city').innerHTML = weather.city;
 
-            document.getElementById('weatherIcon').src = '../assets/' + 'images' + '/' + weather.conditionCode + '.png';
+            document.getElementById('weatherIcon').src = '../HS13/assets/' + 'images' + '/' + weather.conditionCode + '.png';
             if (feelsLike) {
                 document.getElementById('temp').innerHTML = " " + weather.feelsLike + "&deg;";
             } else {
@@ -119,60 +119,60 @@ function mainUpdate(type) {
     }
 }
 function today() {
-    document.getElementById("weatherIconToday").src = '../assets/' + 'images' + '/' + weather.conditionCode + '.png';
+    document.getElementById("weatherIconToday").src = '../HS13/assets/' + 'images' + '/' + weather.conditionCode + '.png';
     document.getElementById('highlowToday').innerHTML = weather.high + "&deg; / " + weather.low + "&deg;";
     document.getElementById("cityToday").innerHTML = weather.city;
     document.getElementById("tempToday").innerHTML = weather.temperature + "&deg;";
     document.getElementById("rain").innerHTML = weather.chanceofrain + "% Chance Of Rain";
 }
 function days() {
-    document.getElementById("weatherIcon1").src = '../assets/images/' + weather.dayForecasts[1].icon + '.png';
+    document.getElementById("weatherIcon1").src = '../HS13/assets/images/' + weather.dayForecasts[1].icon + '.png';
     document.getElementById("day1").innerHTML = tday[weather.dayForecasts[1].dayOfWeek - 1].substring(0, 3);
     document.getElementById("highlow1").innerHTML = weather.dayForecasts[1].high + '&deg; / ' + weather.dayForecasts[1].low + '&deg;';
 
 
-    document.getElementById("weatherIcon2").src = '../assets/images/' + weather.dayForecasts[2].icon + '.png';
+    document.getElementById("weatherIcon2").src = '../HS13/assets/images/' + weather.dayForecasts[2].icon + '.png';
     document.getElementById("day2").innerHTML = tday[weather.dayForecasts[2].dayOfWeek - 1].substring(0, 3);
     document.getElementById("highlow2").innerHTML = weather.dayForecasts[2].high + '&deg; / ' + weather.dayForecasts[2].low + '&deg;';
 
 
-    document.getElementById("weatherIcon3").src = '../assets/images/' + weather.dayForecasts[3].icon + '.png';
+    document.getElementById("weatherIcon3").src = '../HS13/assets/images/' + weather.dayForecasts[3].icon + '.png';
     document.getElementById("day3").innerHTML = tday[weather.dayForecasts[3].dayOfWeek - 1].substring(0, 3);
     document.getElementById("highlow3").innerHTML = weather.dayForecasts[3].high + '&deg; / ' + weather.dayForecasts[3].low + '&deg;';
 
 
-    document.getElementById("weatherIcon4").src = '../assets/images/' + weather.dayForecasts[4].icon + '.png';
+    document.getElementById("weatherIcon4").src = '../HS13/assets/images/' + weather.dayForecasts[4].icon + '.png';
     document.getElementById("day4").innerHTML = tday[weather.dayForecasts[4].dayOfWeek - 1].substring(0, 3);
     document.getElementById("highlow4").innerHTML = weather.dayForecasts[4].high + '&deg; / ' + weather.dayForecasts[4].low + '&deg;';
 
 
-    document.getElementById("weatherIcon5").src = '../assets/images/' + weather.dayForecasts[5].icon + '.png';
+    document.getElementById("weatherIcon5").src = '../HS13/assets/images/' + weather.dayForecasts[5].icon + '.png';
     document.getElementById("day5").innerHTML = tday[weather.dayForecasts[5].dayOfWeek - 1].substring(0, 3);
     document.getElementById("highlow5").innerHTML = weather.dayForecasts[5].high + '&deg; / ' + weather.dayForecasts[5].low + '&deg;';
     // /Days
 }
 function hours() {
-    document.getElementById("hweatherIcon1").src = '../assets/images/' + weather.hourlyForecasts[1].conditionCode + '.png';
+    document.getElementById("hweatherIcon1").src = '../HS13/assets/images/' + weather.hourlyForecasts[1].conditionCode + '.png';
     document.getElementById("hday1").innerHTML = formatTime(weather.hourlyForecasts[1].time);
     document.getElementById("hhighlow1").innerHTML = weather.hourlyForecasts[1].temperature + '&deg;<br>' + weather.hourlyForecasts[1].percentPrecipitation + '% Rain';
 
 
-    document.getElementById("hweatherIcon2").src = '../assets/images/' + weather.hourlyForecasts[2].conditionCode + '.png';
+    document.getElementById("hweatherIcon2").src = '../HS13/assets/images/' + weather.hourlyForecasts[2].conditionCode + '.png';
     document.getElementById("hday2").innerHTML = formatTime(weather.hourlyForecasts[2].time);
     document.getElementById("hhighlow2").innerHTML = weather.hourlyForecasts[2].temperature + '&deg;<br>' + weather.hourlyForecasts[2].percentPrecipitation + '% Rain';
 
 
-    document.getElementById("hweatherIcon3").src = '../assets/images/' + weather.hourlyForecasts[3].conditionCode + '.png';
+    document.getElementById("hweatherIcon3").src = '../HS13/assets/images/' + weather.hourlyForecasts[3].conditionCode + '.png';
     document.getElementById("hday3").innerHTML = formatTime(weather.hourlyForecasts[3].time);
     document.getElementById("hhighlow3").innerHTML = weather.hourlyForecasts[3].temperature + '&deg;<br>' + weather.hourlyForecasts[3].percentPrecipitation + '% Rain';
 
 
-    document.getElementById("hweatherIcon4").src = '../assets/images/' + weather.hourlyForecasts[4].conditionCode + '.png';
+    document.getElementById("hweatherIcon4").src = '../HS13/assets/images/' + weather.hourlyForecasts[4].conditionCode + '.png';
     document.getElementById("hday4").innerHTML = formatTime(weather.hourlyForecasts[4].time);
     document.getElementById("hhighlow4").innerHTML = weather.hourlyForecasts[4].temperature + '&deg;<br>' + weather.hourlyForecasts[4].percentPrecipitation + '% Rain';
 
 
-    document.getElementById("hweatherIcon5").src = '../assets/images/' + weather.hourlyForecasts[5].conditionCode + '.png';
+    document.getElementById("hweatherIcon5").src = '../HS13/assets/images/' + weather.hourlyForecasts[5].conditionCode + '.png';
     document.getElementById("hday5").innerHTML = formatTime(weather.hourlyForecasts[5].time);
     document.getElementById("hhighlow5").innerHTML = weather.hourlyForecasts[5].temperature + '&deg;<br>' + weather.hourlyForecasts[5].percentPrecipitation + '% Rain';
     // /hours

@@ -1,5 +1,5 @@
 var language = ""; // (french/Italian/portuguese/german) Leave blank for English
-var defaultPage = "1"; // Changes default launch page (1=Weather/Date/Time) (2=Music Player) (3=Device Info) (4=Countdown)
+var defaultPage = "1"; // Changes default launch page (1=Weather/Date/Time) (2=Music Player) (3=Device Info) (4=Countdown) (5=Hourly Forecast) (6=Daily Forecast)
 var pageSwitch = true; // Enables/Disables tapping to switch page
 var playingIcon = true; // Shows playing icon on main page when media is playing
 var hideWeather = false; // Hides weather
@@ -9,7 +9,7 @@ var seconds = false; // shows seconds
 var dayMonth = false; // Places day of month before name of month
 var feelsLike = false;
 var musicApp = "com.netease.cloudmusic";
-var musicIcon = "../assets/images/music.jpg"; // Url/File path to app icon (do not type http:) (For themes use /Library/Themes/[theme name].theme/IconBundles/[bundleID]-large.png)
+var musicIcon = "assets/music.jpg"; // Url/File path to app icon (do not type http:) (For themes use /Library/Themes/[theme name].theme/IconBundles/[bundleID]-large.png)
 var showArt = false; // Hides/shows album art
 var backgroundArt = true; // Makes the widget background the album art 
 var invert = true; // Inverts text/icons when backgroundArt is a light color (BETA)

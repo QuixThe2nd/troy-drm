@@ -20,15 +20,24 @@ if (fontURL) {
     document.getElementById("body").style.fontFamily = "customFont";
 }
 if (stockIcons) {
-    document.getElementById('next').src = '../assets/images/next_stock.png';
-    document.getElementById('prev').src = '../assets/images/last_stock.png';
+    document.getElementById('next').src = '../HS13/assets/stock/next.png';
+    document.getElementById('prev').src = '../HS13/assets/stock/last.png';
     document.getElementById('next').style.marginTop = "-60px";
     document.getElementById('prev').style.marginTop = "-60px";
     document.getElementById('next').style.marginBottom = "18px";
     document.getElementById('prev').style.marginBottom = "18px";
 }
 document.getElementById("inner1").style.display = "none";
-document.getElementById("inner" + defaultPage).style.display = "block";
+if (defaultPage <= 4) {
+    document.getElementById("inner" + defaultPage).style.display = "block";
+} else if (defaultPage == 5) {
+    document.getElementById("inner5").style.display = "block";
+    document.getElementById("hours").style.display = "block";
+} else if (defaultPage == 6) {
+    document.getElementById("inner5").style.display = "block";
+    document.getElementById("hours").style.display = "none";
+    document.getElementById("days").style.display = "block";
+}
 if (infoAlign == "right") {
     document.getElementById('inner3').style.textAlign = "right";
 } else if (infoAlign == "center") {
