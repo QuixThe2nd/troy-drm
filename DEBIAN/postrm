@@ -1,3 +1,0 @@
-#!/bin/sh
-rm -r /var/mobile/Library/iWidgets/HS13*
-exit 0
