@@ -1,4 +1,4 @@
-Package: com.yourepo.apladdict.hs13
+Package: com.beta.apladdict.hs13
 Name: HS13
 Depends: mobilesubstrate
 Architecture: iphoneos-arm
