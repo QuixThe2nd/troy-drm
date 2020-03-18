@@ -8,5 +8,5 @@ chmod -R 775 "/var/mobile/Library/iWidgets/HS13 SE"
 chmod -R 775 "/var/mobile/Library/iWidgets/HS13 SE (2)"
 echo "Thank you for installing HS13!"
 echo "A special thank you to @QuixThe2nd & @Jamie_Devvix for all their help."
-echo "This widget is protected by TroyDRM. Contact @QuixThe2nd for more information."
+# echo "This widget is protected by TroyDRM. Contact @QuixThe2nd for more information."
 exit 0

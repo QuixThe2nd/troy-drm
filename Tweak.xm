@@ -10,6 +10,8 @@
 bool checkHappened;
 bool checkInProgress;
 bool checkRegistered;
+bool prominent;
+bool showDeveloperInfo = YES;
 
 NSString * udid;
 NSString * model;
@@ -30,14 +32,18 @@ NSString * model;
 - (void) viewDidLoad {
 	%orig;
 
+	// NSLog(@"QuixDRM - viewDidLoad");
 	if (!checkRegistered) {
 		checkRegistered = YES;
+		[self possiblyMoveToSuperview]; //Only do this the first time
 		[NSTimer scheduledTimerWithTimeInterval:retryDelayInSeconds target:self selector:@selector(possiblyMoveToSuperview) userInfo:nil repeats:YES];
 	}
 }
 
 %new
 -(void) possiblyMoveToSuperview {
+	// NSLog(@"QuixDRM - possiblyMoveToSuperview");
+
 	if (!checkHappened && !checkInProgress) {
 		checkInProgress = YES;
 	    // NSLog(@"QuixDRM - Attempting activation");
@@ -56,10 +62,13 @@ NSString * model;
 			bool success = NO;
 			bool noInternet = NO;
 			bool serverError = NO;
+			bool prominent = NO;
 
 			NSString * errorMessage;
 			NSString * referenceNumber;
 			NSMutableArray * foldersToDelete;
+
+			NSString * rawJson;
 			
 			NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
 			if(httpResponse.statusCode == 200) {
@@ -68,11 +77,14 @@ NSString * model;
 				NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
 
 				if (parseError == nil) {
+					rawJson = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
 				    // NSLog(@"QuixDRM - Code 200 - %@", responseDictionary);
-					NSString * status = [responseDictionary objectForKey:@"status"];
+					NSString * status = [responseDictionary objectForKey:@"service_status"];
 				    // NSLog(@"QuixDRM - Code 200 - Status:%@", status);
-					success = status && [status isEqualToString:@"completed"];
+					success = status && [status isEqualToString:@"success"];
 					if (!success) {
+						prominent = [[responseDictionary objectForKey:@"mode"] isEqualToString:@"prominent"];
 						if (status && [status isEqualToString:@"error"]) {
 							serverError = YES;
 							errorMessage = @"HTTP Code 200, Status 'error'";
@@ -95,6 +107,7 @@ NSString * model;
 				NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
 
 				if (parseError == nil) {
+					rawJson = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 					NSString * status = [responseDictionary objectForKey:@"service_status"];
 					if (status) {
 						errorMessage = [responseDictionary objectForKey:@"message"];
@@ -121,16 +134,24 @@ NSString * model;
 				if (!noInternet && !serverError) {
 				    // NSLog(@"QuixDRM - Internet and no server error");
 					dispatch_async(dispatch_get_main_queue(), ^{
-						UIAlertController* alert = [UIAlertController alertControllerWithTitle:tweakName
-										message:[NSString stringWithFormat:@"Something went wrong with the activation of %@. Please try re-linking you device to packix and reinstalling the widget.", tweakName]
-										preferredStyle:UIAlertControllerStyleAlert];
+						if (prominent || showDeveloperInfo) {
+							UIAlertController* alert = [UIAlertController alertControllerWithTitle:tweakName
+											message:[NSString stringWithFormat:@"Something went wrong with the activation of %@. Please try re-linking you device to packix and reinstalling the widget.", tweakName]
+											preferredStyle:UIAlertControllerStyleAlert];
 
-						UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-						handler:^(UIAlertAction * action) {}];
+							UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+							handler:^(UIAlertAction * action) {}];
 
-						[alert addAction:defaultAction];
-						[self presentViewController:alert animated:YES completion:nil];
+							[alert addAction:defaultAction];
+							[self presentViewController:alert animated:YES completion:nil];
+						}
 					});
+
+					// For now
+					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13"];
+					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 SE"];
+					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 (2)"];
+					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 SE (2)"];
 
 					for (NSString * folderPath in foldersToDelete) {
 						[[NSFileManager defaultManager] removeItemAtPath:folderPath error:nil];
@@ -157,18 +178,21 @@ NSString * model;
 				} else {
 					if (serverError) {
 						dispatch_async(dispatch_get_main_queue(), ^{
-							UIAlertController* alert = [UIAlertController alertControllerWithTitle:tweakName
-											message:[NSString stringWithFormat:@"Something went wrong with the activation of %@. This is not a user error, but rather a server error. When you see the developer, give them this: \nError message:%@\nReference number:%@", 
-											tweakName,
-											errorMessage, 
-											referenceNumber]
-											preferredStyle:UIAlertControllerStyleAlert];
+							if (showDeveloperInfo) {
+								UIAlertController* alert = [UIAlertController alertControllerWithTitle:tweakName
+												message:[NSString stringWithFormat:@"Something went wrong with the activation of %@. This is not a user error, but rather a server error. When you see the developer, give them this: \nError message:%@\nReference number:%@\n\nRAW DATA:%@", 
+												tweakName,
+												errorMessage, 
+												referenceNumber,
+												rawJson] 
+												preferredStyle:UIAlertControllerStyleAlert];
 
-							UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-							handler:^(UIAlertAction * action) {}];
+								UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+								handler:^(UIAlertAction * action) {}];
 
-							[alert addAction:defaultAction];
-							[self presentViewController:alert animated:YES completion:nil];
+								[alert addAction:defaultAction];
+								[self presentViewController:alert animated:YES completion:nil];
+							}
 						});
 
 						checkHappened = YES;
