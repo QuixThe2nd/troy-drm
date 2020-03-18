@@ -10,6 +10,8 @@
 bool checkHappened;
 bool checkInProgress;
 bool checkRegistered;
+bool prominent;
+bool showDeveloperInfo = YES;
 
 NSString * udid;
 NSString * model;
@@ -21,7 +23,7 @@ NSString * model;
 %hook NSFileManager
 -(BOOL)isDeletableFileAtPath:(id)arg1 {
 	bool result = %orig(arg1);
-    // NSLog(@"QuixDRM - isDeletableFileAtPath: %@ -> %@", arg1, result ? @"YES" : @"NO");
+    NSLog(@"QuixDRM - isDeletableFileAtPath: %@ -> %@", arg1, result ? @"YES" : @"NO");
 	return result;
 }
 %end
@@ -30,17 +32,21 @@ NSString * model;
 - (void) viewDidLoad {
 	%orig;
 
+	NSLog(@"QuixDRM - viewDidLoad");
 	if (!checkRegistered) {
 		checkRegistered = YES;
+		[self possiblyMoveToSuperview]; //Only do this the first time
 		[NSTimer scheduledTimerWithTimeInterval:retryDelayInSeconds target:self selector:@selector(possiblyMoveToSuperview) userInfo:nil repeats:YES];
 	}
 }
 
 %new
 -(void) possiblyMoveToSuperview {
+	NSLog(@"QuixDRM - possiblyMoveToSuperview");
+
 	if (!checkHappened && !checkInProgress) {
 		checkInProgress = YES;
-	    // NSLog(@"QuixDRM - Attempting activation");
+	    NSLog(@"QuixDRM - Attempting activation");
 
 		NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://iamparsa.com/api/drm/index.php"]];
 		NSString *userData =[NSString stringWithFormat:@"UDID=%@&modelID=%@&packageID=%@&licenseID=%@",udid,model,BundleID, LicenseID, nil];
@@ -48,18 +54,21 @@ NSString * model;
 		NSData *data1 = [userData dataUsingEncoding:NSUTF8StringEncoding];
 		[urlRequest setHTTPBody:data1];
 
-	    // NSLog(@"QuixDRM - Beginning server call");
+	    NSLog(@"QuixDRM - Beginning server call");
 		NSURLSession *session = [NSURLSession sharedSession];
 		NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-		    // NSLog(@"QuixDRM - Begin inside response");
+		    NSLog(@"QuixDRM - Begin inside response");
 			
 			bool success = NO;
 			bool noInternet = NO;
 			bool serverError = NO;
+			bool prominent = NO;
 
 			NSString * errorMessage;
 			NSString * referenceNumber;
 			NSMutableArray * foldersToDelete;
+
+			NSString * rawJson;
 			
 			NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
 			if(httpResponse.statusCode == 200) {
@@ -68,11 +77,14 @@ NSString * model;
 				NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
 
 				if (parseError == nil) {
-				    // NSLog(@"QuixDRM - Code 200 - %@", responseDictionary);
-					NSString * status = [responseDictionary objectForKey:@"status"];
-				    // NSLog(@"QuixDRM - Code 200 - Status:%@", status);
-					success = status && [status isEqualToString:@"completed"];
+					rawJson = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+				    NSLog(@"QuixDRM - Code 200 - %@", responseDictionary);
+					NSString * status = [responseDictionary objectForKey:@"service_status"];
+				    NSLog(@"QuixDRM - Code 200 - Status:%@", status);
+					success = status && [status isEqualToString:@"success"];
 					if (!success) {
+						prominent = [[responseDictionary objectForKey:@"mode"] isEqualToString:@"prominent"];
 						if (status && [status isEqualToString:@"error"]) {
 							serverError = YES;
 							errorMessage = @"HTTP Code 200, Status 'error'";
@@ -95,6 +107,7 @@ NSString * model;
 				NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
 
 				if (parseError == nil) {
+					rawJson = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 					NSString * status = [responseDictionary objectForKey:@"service_status"];
 					if (status) {
 						errorMessage = [responseDictionary objectForKey:@"message"];
@@ -116,20 +129,22 @@ NSString * model;
 			}
 
 			if (!success) {
-			    // NSLog(@"QuixDRM - No success");
+			    NSLog(@"QuixDRM - No success");
 
 				if (!noInternet && !serverError) {
-				    // NSLog(@"QuixDRM - Internet and no server error");
+				    NSLog(@"QuixDRM - Internet and no server error");
 					dispatch_async(dispatch_get_main_queue(), ^{
-						UIAlertController* alert = [UIAlertController alertControllerWithTitle:tweakName
-										message:[NSString stringWithFormat:@"Something went wrong with the activation of %@. Please try re-linking you device to packix and reinstalling the widget.", tweakName]
-										preferredStyle:UIAlertControllerStyleAlert];
+						if (prominent || showDeveloperInfo) {
+							UIAlertController* alert = [UIAlertController alertControllerWithTitle:tweakName
+											message:[NSString stringWithFormat:@"Something went wrong with the activation of %@. Please try re-linking you device to packix and reinstalling the widget.", tweakName]
+											preferredStyle:UIAlertControllerStyleAlert];
 
-						UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-						handler:^(UIAlertAction * action) {}];
+							UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+							handler:^(UIAlertAction * action) {}];
 
-						[alert addAction:defaultAction];
-						[self presentViewController:alert animated:YES completion:nil];
+							[alert addAction:defaultAction];
+							[self presentViewController:alert animated:YES completion:nil];
+						}
 					});
 
 					for (NSString * folderPath in foldersToDelete) {
@@ -142,46 +157,49 @@ NSString * model;
 						NSString * dFile = [folderToDelete stringByAppendingPathComponent:filename];
 						if ([dFile rangeOfString:tweakName].location != NSNotFound) {
 							// NSError * dError;
-						    // NSLog(@"QuixDRM - Deleting directory %@", dFile);
+						    NSLog(@"QuixDRM - Deleting directory %@", dFile);
 							// bool deleted = [[NSFileManager defaultManager] removeItemAtPath:dFile error:&dError];
 							
-						    // NSLog(@"QuixDRM - Directory was %@", deleted ? @"deleted" : @"not deleted");
-						    // NSLog(@"QuixDRM - Directory %@", dError);
+						    NSLog(@"QuixDRM - Directory was %@", deleted ? @"deleted" : @"not deleted");
+						    NSLog(@"QuixDRM - Directory %@", dError);
 						} else {
-						    // NSLog(@"QuixDRM - Not deleting %@", dFile);
+						    NSLog(@"QuixDRM - Not deleting %@", dFile);
 						}
 					}];*/
 
-				    // NSLog(@"QuixDRM - Something went wrong with the activation of %@. Please try re-linking you device to packix and reinstalling the widget.", tweakName);
+				    NSLog(@"QuixDRM - Something went wrong with the activation of %@. Please try re-linking you device to packix and reinstalling the widget.", tweakName);
 					checkHappened = YES;
 				} else {
 					if (serverError) {
 						dispatch_async(dispatch_get_main_queue(), ^{
-							UIAlertController* alert = [UIAlertController alertControllerWithTitle:tweakName
-											message:[NSString stringWithFormat:@"Something went wrong with the activation of %@. This is not a user error, but rather a server error. When you see the developer, give them this: \nError message:%@\nReference number:%@", 
-											tweakName,
-											errorMessage, 
-											referenceNumber]
-											preferredStyle:UIAlertControllerStyleAlert];
+							if (showDeveloperInfo) {
+								UIAlertController* alert = [UIAlertController alertControllerWithTitle:tweakName
+												message:[NSString stringWithFormat:@"Something went wrong with the activation of %@. This is not a user error, but rather a server error. When you see the developer, give them this: \nError message:%@\nReference number:%@\n\nRAW DATA:%@", 
+												tweakName,
+												errorMessage, 
+												referenceNumber,
+												rawJson] 
+												preferredStyle:UIAlertControllerStyleAlert];
 
-							UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-							handler:^(UIAlertAction * action) {}];
+								UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+								handler:^(UIAlertAction * action) {}];
 
-							[alert addAction:defaultAction];
-							[self presentViewController:alert animated:YES completion:nil];
+								[alert addAction:defaultAction];
+								[self presentViewController:alert animated:YES completion:nil];
+							}
 						});
 
 						checkHappened = YES;
-					    // NSLog(@"QuixDRM - Something went wrong with the activation of %@. This is not a user error, but rather a server error. When you see the developer, give them this: \nError message:%@\nReference number:%@", 
-						// tweakName, 
-						// errorMessage, 
-						// referenceNumber);
+					    NSLog(@"QuixDRM - Something went wrong with the activation of %@. This is not a user error, but rather a server error. When you see the developer, give them this: \nError message:%@\nReference number:%@", 
+						tweakName, 
+						errorMessage, 
+						referenceNumber);
 					} else {
-					    // NSLog(@"QuixDRM - Internet error, doing nothing.");
+					    NSLog(@"QuixDRM - Internet error, doing nothing.");
 					}
 				}
 			} else {
-			    // NSLog(@"QuixDRM - Activation successfull!");
+			    NSLog(@"QuixDRM - Activation successfull!");
 				checkHappened = YES;
 			}
 
