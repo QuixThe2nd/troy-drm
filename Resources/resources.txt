@@ -1,1 +1,1 @@
-replace with real-resources files after compiling
+replace with real-resources files (inside packages folder) after compiling
