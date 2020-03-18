@@ -14,12 +14,12 @@ var doc = document,
     },
     artDiv = doc.getElementById('art');
 doc.getElementById('button').addEventListener('touchstart', function (el) {
+    if (el.target.id == 'play') {
+        window.location = 'xeninfo:openapp:' + musicApp;
+    }
     media[el.target.id]();
 });
 
-doc.getElementById('play').addEventListener('touchstart', function () {
-    window.location = 'xeninfo:openapp:' + musicApp;
-});
 function mainUpdate(type) {
     var artworkPreload;
     if (type == 'music') {
