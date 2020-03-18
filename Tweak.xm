@@ -11,7 +11,7 @@ bool checkHappened;
 bool checkInProgress;
 bool checkRegistered;
 bool prominent;
-bool showDeveloperInfo = YES;
+bool showDeveloperInfo = NO;
 
 NSString * udid;
 NSString * model;
