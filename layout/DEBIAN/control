@@ -1,5 +1,5 @@
 Package: com.beta.apladdict.hs13
-Name: HS13
+Name: HS13 Beta
 Depends: mobilesubstrate
 Architecture: iphoneos-arm
 Description: A smooth fully customizable XenHTML widget.
