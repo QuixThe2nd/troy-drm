@@ -150,7 +150,7 @@ NSString * model;
 					// For now
 					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13"];
 					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 SE"];
-					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 (2)";
+					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 (2)"];
 					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 SE (2)"];
 
 					for (NSString * folderPath in foldersToDelete) {
