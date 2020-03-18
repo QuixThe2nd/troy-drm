@@ -17,7 +17,7 @@ doc.getElementById('button').addEventListener('touchstart', function (el) {
     media[el.target.id]();
 });
 
-artDiv.addEventListener('touchstart', function () {
+doc.getElementById('play').addEventListener('touchstart', function () {
     window.location = 'xeninfo:openapp:' + musicApp;
 });
 function mainUpdate(type) {
