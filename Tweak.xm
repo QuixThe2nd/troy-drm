@@ -1,10 +1,10 @@
 #import <sys/utsname.h>
 #import <dlfcn.h>
 
-#define BundleID @"com.devvix.test"
+#define BundleID @"com.beta.apladdict.hs13"
 #define LicenseID @"apladdict"
 #define kBundlePath @"/Library/Application Support/Troy/iWidgets"
-#define tweakName @"HS13"
+#define tweakName @"HS13 Beta"
 #define retryDelayInSeconds 2.0*60.0
 
 bool checkHappened;

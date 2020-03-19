@@ -1,6 +1,0 @@
-#!/bin/sh
-rm -r "/var/mobile/Library/iWidgets/HS13"
-rm -r "/var/mobile/Library/iWidgets/HS13 (2)"
-rm -r "/var/mobile/Library/iWidgets/HS13 SE"
-rm -r "/var/mobile/Library/iWidgets/HS13 SE (2)"
-exit 0
