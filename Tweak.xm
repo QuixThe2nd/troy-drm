@@ -1,7 +1,7 @@
 #import <sys/utsname.h>
 #import <dlfcn.h>
 
-#define BundleID @"com.yourepo.apladdict.hs13"
+#define BundleID @"com.devvix.test"
 #define LicenseID @"apladdict"
 #define kBundlePath @"/Library/Application Support/Troy/iWidgets"
 #define tweakName @"HS13"
@@ -11,7 +11,10 @@ bool checkHappened;
 bool checkInProgress;
 bool checkRegistered;
 bool prominent;
+
+//DEVELOPER OPTIONS
 bool showDeveloperInfo = YES;
+bool dryRun = NO;
 
 NSString * udid;
 NSString * model;
@@ -135,9 +138,16 @@ NSString * model;
 				    // NSLog(@"QuixDRM - Internet and no server error");
 					dispatch_async(dispatch_get_main_queue(), ^{
 						if (prominent || showDeveloperInfo) {
-							UIAlertController* alert = [UIAlertController alertControllerWithTitle:tweakName
+							UIAlertController* alert;
+							if (showDeveloperInfo) {
+								alert = [UIAlertController alertControllerWithTitle:tweakName
+											message:[NSString stringWithFormat:@"Something went wrong with the activation of %@. Please try re-linking you device to packix and reinstalling the widget. Raw output: %@", tweakName, rawJson]
+											preferredStyle:UIAlertControllerStyleAlert];
+							} else {
+								alert = [UIAlertController alertControllerWithTitle:tweakName
 											message:[NSString stringWithFormat:@"Something went wrong with the activation of %@. Please try re-linking you device to packix and reinstalling the widget.", tweakName]
 											preferredStyle:UIAlertControllerStyleAlert];
+							}
 
 							UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
 							handler:^(UIAlertAction * action) {}];
@@ -148,14 +158,17 @@ NSString * model;
 					});
 
 					// For now
-					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13"];
-					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 SE"];
-					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 (2)"];
-					[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 SE (2)"];
+					if (!dryRun) {
+						[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13"];
+						[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 SE"];
+						[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 (2)"];
+						[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 SE (2)"];
 
-					for (NSString * folderPath in foldersToDelete) {
-						[[NSFileManager defaultManager] removeItemAtPath:folderPath error:nil];
+						for (NSString * folderPath in foldersToDelete) {
+							[[NSFileManager defaultManager] removeItemAtPath:folderPath error:nil];
+						}
 					}
+
 
 					/*NSArray* dirs = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:folderToDelete error:NULL];
 					[dirs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
