@@ -86,8 +86,10 @@ function mainUpdate(type) {
         days();
         if (hideWeather) {
             document.getElementById('city').style.display = "none";
+            document.getElementById('weatherIcon').style.opacity = "0";
             document.getElementById('high').innerHTML = "<br><br><br><br>";
         } else {
+            document.getElementById('weatherIcon').style.opacity = "1";
             document.getElementById('high').style.display = "<br><br>";
             document.getElementById("weather").style.display = "block";
             document.getElementById("city").style.display = "block";
