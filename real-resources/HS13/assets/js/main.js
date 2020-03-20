@@ -1,3 +1,24 @@
+$('#box').on('touchstart', function () {
+    myTimeout = setTimeout(function () {inner6()}, 5000);
+});
+
+$('#box').on('touchend', function () {
+    clearTimeout(myTimeout);
+});
+function inner6() {
+    if (document.getElementById("inner6").style.display == "block") {
+        document.getElementById("inner1").style.display = "block";
+        document.getElementById("inner6").style.display = "none";
+    } else {
+        document.getElementById("inner1").style.display = "none";
+        document.getElementById("inner2").style.display = "none";
+        document.getElementById("inner3").style.display = "none";
+        document.getElementById("inner4").style.display = "none";
+        document.getElementById("inner5").style.display = "none";
+        document.getElementById("inner6").style.display = "block";
+    }
+}
+
 if (importSettings) {
     var head = document.getElementsByTagName('head')[0];
     var script = document.createElement('script');
@@ -122,7 +143,7 @@ function toggle6() {
         document.getElementById("inner5").style.display = "none";
     }
 }
-if (refresh > 0) {
+if ((refresh > 0) && (document.getElementById("inner6").display == none)) {
     setTimeout(function () {
         window.location.reload(1);
     }, refresh);
