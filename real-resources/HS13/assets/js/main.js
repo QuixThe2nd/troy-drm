@@ -1,5 +1,5 @@
 $('#box').on('touchstart', function () {
-    myTimeout = setTimeout(function () {inner6()}, 5000);
+    myTimeout = setTimeout(function () { inner6() }, 5000);
 });
 
 $('#box').on('touchend', function () {
@@ -99,7 +99,7 @@ function toggle() {
             } else if (document.getElementById("inner3").style.display == "block") {
                 document.getElementById("inner3").style.display = "none";
                 document.getElementById("inner4").style.display = "block";
-            } else if (document.getElementById("inner4").style.display == "block"){
+            } else if (document.getElementById("inner4").style.display == "block") {
                 document.getElementById("inner1").style.display = "block";
                 document.getElementById("inner4").style.display = "none";
             }

@@ -1,0 +1,4 @@
+var darkPickColor = "#D5585B"; // Pick a custom color for when dark mode enabled (Type a color name or a hex code)(leave blank for default)
+var darkDateColor = "white"; // Pick a custom color for date when dark mode enabled (Type a color name or a hex code)(leave blank for default)(overrides PickColor)
+var darkTempColor = "white"; // Pick a custom color for temp when dark mode enabled (Type a color name or a hex code)(leave blank for default)(overrides PickColor)
+var darkHighLowColor = "white"; // Pick a custom color for high/low temp when dark mode enabled (Type a color name or a hex code)(leave blank for default)(overrides PickColor)
