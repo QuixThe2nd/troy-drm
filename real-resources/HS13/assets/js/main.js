@@ -143,9 +143,10 @@ function toggle6() {
         document.getElementById("inner5").style.display = "none";
     }
 }
-if ((refresh > 0) && (window.getComputedStyle(document.getElementById("inner6")).display === "none")) {
+if (refresh > 0) {
     setTimeout(function () {
-        window.location.reload(1);
+        if (window.getComputedStyle(document.getElementById("inner6")).display === "none")
+            window.location.reload(1);
     }, refresh * 1000);
 }
 document.getElementById("box").style.borderRadius = radius;
