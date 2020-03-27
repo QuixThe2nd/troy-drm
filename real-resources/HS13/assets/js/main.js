@@ -1,24 +1,3 @@
-$('#box').on('touchstart', function () {
-    myTimeout = setTimeout(function () { inner6() }, 5000);
-});
-
-$('#box').on('touchend', function () {
-    clearTimeout(myTimeout);
-});
-function inner6() {
-    if (document.getElementById("inner6").style.display == "block") {
-        document.getElementById("inner1").style.display = "block";
-        document.getElementById("inner6").style.display = "none";
-    } else {
-        document.getElementById("inner1").style.display = "none";
-        document.getElementById("inner2").style.display = "none";
-        document.getElementById("inner3").style.display = "none";
-        document.getElementById("inner4").style.display = "none";
-        document.getElementById("inner5").style.display = "none";
-        document.getElementById("inner6").style.display = "block";
-    }
-}
-
 if (importSettings) {
     var head = document.getElementsByTagName('head')[0];
     var script = document.createElement('script');
@@ -291,3 +270,12 @@ function toggleMode() {
 toggleMode();
 window.matchMedia("(prefers-color-scheme: dark)").addListener(e => e.matches && toggleMode())
 window.matchMedia("(prefers-color-scheme: light)").addListener(e => e.matches && toggleMode())
+
+if (exportSettings) {
+    document.getElementById("inner1").style.display = "none";
+    document.getElementById("inner2").style.display = "none";
+    document.getElementById("inner3").style.display = "none";
+    document.getElementById("inner4").style.display = "none";
+    document.getElementById("inner5").style.display = "none";
+    document.getElementById("inner6").style.display = "block";
+}

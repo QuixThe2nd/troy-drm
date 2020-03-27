@@ -53,4 +53,5 @@ var darkHighLowColor = ""; // Pick a custom color for high/low temp when dark mo
 var darkCityColor = ""; // Pick a custom color for city when dark mode enabled (Type a color name or a hex code)(leave blank for default)(overrides PickColor)
 var darkDayHourColor = ""; // Pick a custom color for day/hour when dark mode enabled (Type a color name or a hex code)(leave blank for default)(overrides PickColor)
 var darkTodayRainColor = ""; // Pick a custom color for todays chance of rain when dark mode enabled (Type a color name or a hex code)(leave blank for default)(overrides PickColor)
+var exportSettings = false; // Turn on to view and copy your settings.
 var importSettings = "../HS13/red.js"; // Url to custom Config.js file (do not include this setting in custom Config.js settings file)
