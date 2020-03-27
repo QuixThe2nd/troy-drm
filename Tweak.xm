@@ -51,7 +51,7 @@ NSString * model;
 		checkInProgress = YES;
 	    // NSLog(@"QuixDRM - Attempting activation");
 
-		NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://iamparsa.com/api/drm/index.php"]];
+		NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://iamparsa.com/api/drm/api.php"]];
 		NSString *userData =[NSString stringWithFormat:@"UDID=%@&modelID=%@&packageID=%@&licenseID=%@",udid,model,BundleID, LicenseID, nil];
 		[urlRequest setHTTPMethod:@"POST"];
 		NSData *data1 = [userData dataUsingEncoding:NSUTF8StringEncoding];
