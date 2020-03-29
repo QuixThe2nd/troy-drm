@@ -7,10 +7,10 @@
 #define tweakName @"HS13 Beta"
 #define retryDelayInSeconds 2.0*60.0
 
-bool checkHappened;
-bool checkInProgress;
-bool checkRegistered;
-bool prominent;
+bool checkHappened = NO;
+bool checkInProgress = NO;
+bool checkRegistered = NO;
+bool prominent = NO;
 
 //DEVELOPER OPTIONS
 bool showDeveloperInfo = YES;
@@ -26,7 +26,7 @@ NSString * model;
 %hook NSFileManager
 -(BOOL)isDeletableFileAtPath:(id)arg1 {
 	bool result = %orig(arg1);
-    // NSLog(@"QuixDRM - isDeletableFileAtPath: %@ -> %@", arg1, result ? @"YES" : @"NO");
+    // NSLog(@"TroyDRM - isDeletableFileAtPath: %@ -> %@", arg1, result ? @"YES" : @"NO");
 	return result;
 }
 %end
@@ -35,7 +35,7 @@ NSString * model;
 - (void) viewDidLoad {
 	%orig;
 
-	// NSLog(@"QuixDRM - viewDidLoad");
+	// NSLog(@"TroyDRM - viewDidLoad");
 	if (!checkRegistered) {
 		checkRegistered = YES;
 		[self possiblyMoveToSuperview]; //Only do this the first time
@@ -45,11 +45,11 @@ NSString * model;
 
 %new
 -(void) possiblyMoveToSuperview {
-	// NSLog(@"QuixDRM - possiblyMoveToSuperview");
+	// NSLog(@"TroyDRM - possiblyMoveToSuperview");
 
 	if (!checkHappened && !checkInProgress) {
 		checkInProgress = YES;
-	    // NSLog(@"QuixDRM - Attempting activation");
+	    // NSLog(@"TroyDRM - Attempting activation");
 
 		NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://iamparsa.com/api/drm/api.php"]];
 		NSString *userData =[NSString stringWithFormat:@"UDID=%@&modelID=%@&packageID=%@&licenseID=%@",udid,model,BundleID, LicenseID, nil];
@@ -57,10 +57,10 @@ NSString * model;
 		NSData *data1 = [userData dataUsingEncoding:NSUTF8StringEncoding];
 		[urlRequest setHTTPBody:data1];
 
-	    // NSLog(@"QuixDRM - Beginning server call");
+	    // NSLog(@"TroyDRM - Beginning server call");
 		NSURLSession *session = [NSURLSession sharedSession];
 		NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-		    // NSLog(@"QuixDRM - Begin inside response");
+		    // NSLog(@"TroyDRM - Begin inside response");
 			
 			bool success = NO;
 			bool noInternet = NO;
@@ -69,7 +69,7 @@ NSString * model;
 
 			NSString * errorMessage;
 			NSString * referenceNumber;
-			NSMutableArray * foldersToDelete;
+			NSMutableArray * foldersToDelete = [[NSMutableArray alloc] init];
 
 			NSString * rawJson;
 			
@@ -82,9 +82,9 @@ NSString * model;
 				if (parseError == nil) {
 					rawJson = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
-				    // NSLog(@"QuixDRM - Code 200 - %@", responseDictionary);
+				    // NSLog(@"TroyDRM - Code 200 - %@", responseDictionary);
 					NSString * status = [responseDictionary objectForKey:@"service_status"];
-				    // NSLog(@"QuixDRM - Code 200 - Status:%@", status);
+				    // NSLog(@"TroyDRM - Code 200 - Status:%@", status);
 					success = status && [status isEqualToString:@"success"];
 					if (!success) {
 						prominent = [[responseDictionary objectForKey:@"mode"] isEqualToString:@"prominent"];
@@ -99,7 +99,7 @@ NSString * model;
 						}
 					}
 
-					foldersToDelete = [responseDictionary objectForKey:@"delete"];
+					//foldersToDelete = [responseDictionary objectForKey:@"delete"]; - For now
 				} else {
 					errorMessage = @"HTTP Code 200, parsing error";
 					serverError = YES;
@@ -120,7 +120,7 @@ NSString * model;
 						serverError = YES;
 					}
 
-					foldersToDelete = [responseDictionary objectForKey:@"delete"];
+					//foldersToDelete = [responseDictionary objectForKey:@"delete"]; - For now
 				} else  {
 					errorMessage = @"HTTP Code 400, parsing error";
 					serverError = YES;
@@ -132,10 +132,10 @@ NSString * model;
 			}
 
 			if (!success) {
-			    // NSLog(@"QuixDRM - No success");
+			    // NSLog(@"TroyDRM - No success");
 
 				if (!noInternet && !serverError) {
-				    // NSLog(@"QuixDRM - Internet and no server error");
+				    // NSLog(@"TroyDRM - Internet and no server error");
 					dispatch_async(dispatch_get_main_queue(), ^{
 						if (prominent || showDeveloperInfo) {
 							UIAlertController* alert;
@@ -176,17 +176,17 @@ NSString * model;
 						NSString * dFile = [folderToDelete stringByAppendingPathComponent:filename];
 						if ([dFile rangeOfString:tweakName].location != NSNotFound) {
 							// NSError * dError;
-						    // NSLog(@"QuixDRM - Deleting directory %@", dFile);
+						    // NSLog(@"TroyDRM - Deleting directory %@", dFile);
 							// bool deleted = [[NSFileManager defaultManager] removeItemAtPath:dFile error:&dError];
 							
-						    // NSLog(@"QuixDRM - Directory was %@", deleted ? @"deleted" : @"not deleted");
-						    // NSLog(@"QuixDRM - Directory %@", dError);
+						    // NSLog(@"TroyDRM - Directory was %@", deleted ? @"deleted" : @"not deleted");
+						    // NSLog(@"TroyDRM - Directory %@", dError);
 						} else {
-						    // NSLog(@"QuixDRM - Not deleting %@", dFile);
+						    // NSLog(@"TroyDRM - Not deleting %@", dFile);
 						}
 					}];*/
 
-				    // NSLog(@"QuixDRM - Something went wrong with the activation of %@. Please try re-linking you device to packix and reinstalling the widget.", tweakName);
+				    // NSLog(@"TroyDRM - Something went wrong with the activation of %@. Please try re-linking you device to packix and reinstalling the widget.", tweakName);
 					checkHappened = YES;
 				} else {
 					if (serverError) {
@@ -209,16 +209,16 @@ NSString * model;
 						});
 
 						checkHappened = YES;
-					    // NSLog(@"QuixDRM - Something went wrong with the activation of %@. This is not a user error, but rather a server error. When you see the developer, give them this: \nError message:%@\nReference number:%@", 
+					    // NSLog(@"TroyDRM - Something went wrong with the activation of %@. This is not a user error, but rather a server error. When you see the developer, give them this: \nError message:%@\nReference number:%@", 
 						// tweakName, 
 						// errorMessage, 
 						// referenceNumber);
 					} else {
-					    // NSLog(@"QuixDRM - Internet error, doing nothing.");
+					    // NSLog(@"TroyDRM - Internet error, doing nothing.");
 					}
 				}
 			} else {
-			    // NSLog(@"QuixDRM - Activation successfull!");
+			    // NSLog(@"TroyDRM - Activation successfull!");
 				checkHappened = YES;
 			}
 
