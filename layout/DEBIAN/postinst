@@ -2,10 +2,18 @@
 mkdir -p /var/mobile/Library/iWidgets
 cp -r /Library/Application\ Support/Troy/iWidgets.bundle/* /var/mobile/Library/iWidgets/
 rm -r /Library/Application\ Support/Troy
-chmod -R 775 "/var/mobile/Library/iWidgets/HS13"
-chmod -R 775 "/var/mobile/Library/iWidgets/HS13 (2)"
-chmod -R 775 "/var/mobile/Library/iWidgets/HS13 SE"
-chmod -R 775 "/var/mobile/Library/iWidgets/HS13 SE (2)"
+if [[ -d "/var/mobile/Library/iWidgets/HS13" ]]; then
+    chmod -R 775 "/var/mobile/Library/iWidgets/HS13"
+fi
+if [[ -d "/var/mobile/Library/iWidgets/HS13 (2)" ]]; then
+    chmod -R 775 "/var/mobile/Library/iWidgets/HS13 (2)"
+fi
+if [[ -d "/var/mobile/Library/iWidgets/HS13 SE" ]]; then
+    chmod -R 775 "/var/mobile/Library/iWidgets/HS13 SE"
+fi
+if [[ -d "/var/mobile/Library/iWidgets/HS13 SE (2)" ]]; then
+    chmod -R 775 "/var/mobile/Library/iWidgets/HS13 SE (2)"
+fi
 echo "Thank you for installing HS13!"
 echo "A special thank you to @QuixThe2nd & @Jamie_Devvix for all their help."
 # echo "This widget is protected by TroyDRM. Contact @QuixThe2nd for more information."

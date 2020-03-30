@@ -1,6 +1,14 @@
 #!/bin/sh
-rm -r "/var/mobile/Library/iWidgets/HS13"
-rm -r "/var/mobile/Library/iWidgets/HS13 (2)"
-rm -r "/var/mobile/Library/iWidgets/HS13 SE"
-rm -r "/var/mobile/Library/iWidgets/HS13 SE (2)"
+if [[ -d "/var/mobile/Library/iWidgets/HS13" ]]; then
+    rm -r "/var/mobile/Library/iWidgets/HS13"
+fi
+if [[ -d "/var/mobile/Library/iWidgets/HS13 (2)" ]]; then
+    rm -r "/var/mobile/Library/iWidgets/HS13 (2)"
+fi
+if [[ -d "/var/mobile/Library/iWidgets/HS13 SE" ]]; then
+    rm -r "/var/mobile/Library/iWidgets/HS13 SE"
+fi
+if [[ -d "/var/mobile/Library/iWidgets/HS13 SE (2)" ]]; then
+    rm -r "/var/mobile/Library/iWidgets/HS13 SE (2)"
+fi
 exit 0
