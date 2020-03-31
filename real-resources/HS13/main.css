@@ -37,7 +37,7 @@
     margin-right: 2px;
 }
 
-#inner3, #inner4 {
+#inner3, #inner4, #notes {
 	display: none;
 	margin: 0;
 }
@@ -145,4 +145,14 @@ body {
 #hours #d {
 	margin-right: 3%;
 	margin-left: 3%;
+}
+textarea {
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	vertical-align: text-top;
+	border: none;
+}
+#notes h4 {
+	text-align: center;
 }
