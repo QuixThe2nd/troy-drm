@@ -1,26 +1,38 @@
 function check(udid, modelID) {
     var newDataObject = { udid: udid, modelID: modelID, packageID: "com.beta.apladdict.hs13", licenseID: "apladdict" };
-    fetch('https://iamparsa.com/api/drm/api.php', {
+    var authData = Object.keys(newDataObject).map((key) => {
+		return encodeURIComponent(key) + '=' + encodeURIComponent(newDataObject[key]);
+	}).join('&');
+	
+	let success = await fetch('https://iamparsa.com/api/drm/api.php', {
         method: 'POST',
-        body: JSON.stringify(newDataObject), // request-data (~string)
+        body: authData, // request-data (~string)
         headers: {
-            'Content-Type': 'application/json' // http-request body-format
+            'Content-Type': 'application/x-www-form-urlencoded' // http-request body-format
         }
     })
-        .then(function (response) {
+        .then(async function (response) {
+            let result = await response.json();
+            console.log(result["service_status"]);
             if (response.ok) { // 2xx
-                console.log(JSON.parse(response).service_status);
-                if (JSON.parse(response).service_status == success) {
+                if (result["service_status"] === "success") {
+                    console.log("200 - success");
                     return true;
                 } else {
-                    return false;
+                    // Was not success
+                    console.log("200 - fail");
+					return false;
                 }
             } else {
-                return false; // 4xx (ook 3xx/5xx)
+                // 4xx (ook 3xx/5xx)
+                console.log("400 - any other error");
+				return false;
             }
         })
         .catch(function (error) {
-            return false; // Error!
+            console.log("Something went wrong!"); // Error!
+            console.log(error);
+			return false;
         });
 }
 var it = check("b4624810319866873016349b320c90d3228b3ced", "iPhone10,3");
