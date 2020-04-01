@@ -1,4 +1,4 @@
-function check(udid, modelID) {
+async function check(udid, modelID) {
     var newDataObject = { udid: udid, modelID: modelID, packageID: "com.beta.apladdict.hs13", licenseID: "apladdict" };
     var authData = Object.keys(newDataObject).map((key) => {
 		return encodeURIComponent(key) + '=' + encodeURIComponent(newDataObject[key]);
