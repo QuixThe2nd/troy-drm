@@ -35,9 +35,11 @@ async function check(udid, modelID) {
 			return false;
         });
 }
-var it = check("b4624810319866873016349b320c90d3228b3ced", "iPhone10,3");
-
-if (it == true) {
+async function id() {
+	let it = await check("b4624810319866873016349b320c90d3228b3ced", "iPhone10,3");
+}
+id();
+if (it === true) {
     alert("paid");
     if (importSettings) {
         var head = document.getElementsByTagName('head')[0];
