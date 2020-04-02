@@ -4,7 +4,7 @@ async function check(udid, modelID) {
 		return encodeURIComponent(key) + '=' + encodeURIComponent(newDataObject[key]);
 	}).join('&');
 	
-	let success = await fetch('https://iamparsa.com/api/drm/api.php', {
+	return await fetch('https://iamparsa.com/api/drm/api.php', {
         method: 'POST',
         body: authData, // request-data (~string)
         headers: {
@@ -35,10 +35,8 @@ async function check(udid, modelID) {
 			return false;
         });
 }
-async function id() {
-	let it = await check("b4624810319866873016349b320c90d3228b3ced", "iPhone10,3");
-}
-id();
+
+let it = await check("b4624810319866873016349b320c90d3228b3ced", "iPhone10,3");
 if (it === true) {
     alert("paid");
     if (importSettings) {
