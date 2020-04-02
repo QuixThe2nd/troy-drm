@@ -4,7 +4,7 @@ async function check(udid, modelID) {
         return encodeURIComponent(key) + '=' + encodeURIComponent(newDataObject[key]);
     }).join('&');
 
-    return await fetch('https://iamparsa.com/api/drm/api.php', {
+    return await fetch('https://test.cors.workers.dev/?https://iamparsa.com/api/drm/api.php', {
         method: 'POST',
         body: authData, // request-data (~string)
         headers: {
@@ -17,7 +17,7 @@ async function check(udid, modelID) {
             if (response.ok) { // 2xx
                 if (result["service_status"] === "success") {
                     console.log("200 - success");
-                    localStorage.setItem("HS13-1.7", "true");
+                    //localStorage.setItem("HS13-1.7", "true");
                     return true;
                 } else {
                     // Was not success
