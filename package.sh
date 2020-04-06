@@ -33,8 +33,19 @@ cd "extracted"
 
 #Extract the control and data files
 ar -x "$1" > /dev/null
-tar -xvf "control.tar.gz" > /dev/null
-tar --lzma -xvf "data.tar.lzma" > /dev/null
+
+if [[ -f "control.tar.gz" ]]; then
+    tar -xvf "control.tar.gz" > /dev/null
+fi
+if [[ -f "data.tar.gz" ]]; then
+    tar -xvf "data.tar.gz" > /dev/null
+fi
+if [[ -f "data.tar.lzma" ]]; then
+    tar --lzma -xvf "data.tar.lzma" > /dev/null
+fi
+if [[ -f "control.tar.lzma" ]]; then
+    tar --lzma -xvf "control.tar.lzma" > /dev/null
+fi
 
 #Read the control file
 CONTROL=""
@@ -62,6 +73,16 @@ while IFS= read -r line; do
         NAME=$(echo "$NAME" | gsed -e 's/[ ]*$//')
     fi
 done <<< "$CONTROL"
+
+#Possibly correct the package ID
+NEW_PACKAGE_ID=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
+NEW_PACKAGE_ID="${NEW_PACKAGE_ID//[^a-z-.+]/}"
+if [[ "$PACKAGE_ID" != "$NEW_PACKAGE_ID" ]]; then
+    echo "Package id is not correct."
+    echo "Corrected '$PACKAGE_ID' to '$NEW_PACKAGE_ID'"
+    gsed -i "s/$PACKAGE_ID/$NEW_PACKAGE_ID/g" "$CONTROL_DIRECTORY"
+    PACKAGE_ID="$NEW_PACKAGE_ID"
+fi
 
 ###Find directories to include in delete
 IWIDGETS=""
@@ -144,7 +165,8 @@ if [[ -ne $THEMES ]]; then
         echo "rm -r \"${line:1}\"" >> "layout/DEBIAN/postrm"
         echo "fi" >> "layout/DEBIAN/postrm"
 
-        gsed -i "s/\/\/DRM_TWEAK_REMOVE_FILES/\/\/DRM_TWEAK_REMOVE_FILES\n[foldersToDelete addObject:@\"${line:1}\"];/g" Tweak.xm
+	gsafe=$(echo ${line:1} | sed 's=\/=\\\/=g');
+        gsed -i "s=\/\/DRM_TWEAK_REMOVE_FILES=\/\/DRM_TWEAK_REMOVE_FILES\\n[foldersToDelete addObject:@\"$gsafe\"];=g" Tweak.xm
     done <<< "$THEMES"
 fi
 
@@ -157,20 +179,22 @@ echo "exit 0" >> "layout/DEBIAN/postrm"
 cp "../extracted/$CONTROL_DIRECTORY" "layout/DEBIAN/" > /dev/null
 
 #Replace values in tweak.xm
-gsed -i "s/DRM_TWEAL_BUNDLE_ID/$PACKAGE_ID/g" Tweak.xm
+gsed -i "s/DRM_TWEAK_BUNDLE_ID/$PACKAGE_ID/g" Tweak.xm
 gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Tweak.xm
 gsed -i "s/DRM_LICENSE/$LICENSE/g" Tweak.xm
+gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Makefile
+mv "Troy.plist" "${DRM_TWEAK_NAME}.plist"
 
 #Compile tweak
-make package FINALPACKAGE=1
+make package install FINALPACKAGE=1
 
 #Copy tweak files to main dir
 cp -r packages/* ../
 
 #Cleanup
-cd ..
-rm -r -f extracted
-rm -r -f troy-drm
+#cd ..
+#rm -r -f extracted
+#rm -r -f troy-drm
 
 echo "DRM successfully added to \"$NAME\""
 exit 0;

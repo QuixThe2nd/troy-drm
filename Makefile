@@ -4,14 +4,14 @@ INSTALL_TARGET_PROCESSES = SpringBoard
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = Troy
+TWEAK_NAME = DRM_TWEAK_NAME
 
-Troy_FILES = Tweak.xm
-Troy_FOLDERS = var
-Troy_CFLAGS = -fobjc-arc
+DRM_TWEAK_NAME_FILES = Tweak.xm
+DRM_TWEAK_NAME_FOLDERS = var
+DRM_TWEAK_NAME_CFLAGS = -fobjc-arc
 
 BUNDLE_NAME = iWidgets
-iWidgets_INSTALL_PATH = /Library/Application Support/Troy
+iWidgets_INSTALL_PATH = /Library/Application Support/DRM_TWEAK_NAME
 include $(THEOS_MAKE_PATH)/bundle.mk
 
 include $(THEOS_MAKE_PATH)/tweak.mk

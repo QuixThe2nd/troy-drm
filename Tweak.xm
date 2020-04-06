@@ -1,9 +1,9 @@
 #import <sys/utsname.h>
 #import <dlfcn.h>
 
-#define BundleID @"DRM_TWEAL_BUNDLE_ID"
+#define BundleID @"DRM_TWEAK_BUNDLE_ID"
 #define LicenseID @"DRM_LICENSE"
-#define kBundlePath @"/Library/Application Support/Troy/iWidgets"
+#define kBundlePath @"/Library/Application Support/DRM_TWEAK_NAME/iWidgets"
 #define tweakName @"DRM_TWEAK_NAME"
 #define retryDelayInSeconds 2.0*60.0
 
