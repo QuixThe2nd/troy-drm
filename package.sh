@@ -12,6 +12,9 @@ if [[ ! -f "$1" ]]; then
     echo "Usage: ./package.sh <path to deb>"
 fi
 
+echo "Please enter your DRM license: "
+read LICENSE
+
 #If an earlier extracted package exists, delete the directory and all its files,
 #then create it again and go into it
 if [[ -d "extracted" ]]; then
@@ -39,19 +42,20 @@ fi
 
 #Find the package id in the control file
 PACKAGE_ID=""
+NAME=""
 
 while IFS= read -r line; do
     KEY=${line%%:*}
-    VALUE=${line#*:}
+    VALUE=${line#*}
     if [[ "$KEY" == "Package" ]]; then
-        PACKAGE_ID="$VALUE"
+        PACKAGE_ID=$(echo "$VALUE" | sed 's/ *$//g')
+    elif [[ "$KEY" == "Name" ]]; then
+        NAME=$(echo "$VALUE" | sed 's/ *$//g')
     fi
 done <<< "$CONTROL"
 
 
 ###Find directories to include in delete
-HAS_IWIDGETS=false
-HAS_THEMES=false
 IWIDGETS=""
 THEMES=""
 
@@ -60,7 +64,6 @@ IWIDGETS_DIRECTORY=$(find . -type d | grep -Eo '^.+?\/iWidgets$')
 
 #Find all widget directories
 if [[ -ne "$IWIDGETS_DIRECTORY" ]]; then
-    HAS_IWIDGETS=true
     IWIDGETS=$(find . -type d | grep -Eo '^.+?\/iWidgets\/[^\/]+?$')
 fi
 
@@ -69,7 +72,6 @@ THEMES_DIRECTORY=$(find . -type d | grep -Eo '^.+?\/Themes$')
 
 #Find all widget directories
 if [[ -ne "$THEMES_DIRECTORY" ]]; then
-    HAS_THEMES=true
     THEMES=$(find . -type d | grep -Eo '^.+?\/Themes\/[^\/]+?$')
 fi
 
@@ -95,7 +97,8 @@ mkdir "Resources"
 
 touch "postinst"
 
-if [[ HAS_IWIDGETS ]]; then
+#Copy resources and update postinst, postrm and tweak.xm file
+if [[ -ne $IWIDGETS ]]; then
     echo "mkdir -p /var/mobile/Library/iWidgets" >> "layout/DEBIAN/postinst"
     echo "cp -r /Library/Application\ Support/Troy/iWidgets.bundle/* ${IWIDGETS_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
 
@@ -110,10 +113,13 @@ if [[ HAS_IWIDGETS ]]; then
         echo "if [[ -d \"${line:1}\" ]]; then" >> "layout/DEBIAN/postrm"
         echo "rm -r \"${line:1}\"" >> "layout/DEBIAN/postrm"
         echo "fi" >> "layout/DEBIAN/postrm"
+
+        sed "s/\/\/DRM_TWEAK_REMOVE_FILES/\/\/DRM_TWEAK_REMOVE_FILES\n[foldersToDelete addObject:@\"${line:1}\"];/g" "tweak.xm"
     done <<< "$IWIDGETS"
 fi
 
-if [[ HAS_THEMES ]]; then
+#Copy resources and update postinst, postrm and tweak.xm file
+if [[ -ne $THEMES ]]; then
     echo "mkdir -p /Library/Themes" >> "layout/DEBIAN/postinst"
     echo "cp -r /Library/Application\ Support/Troy/iWidgets.bundle/* ${THEMES_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
 
@@ -128,11 +134,20 @@ if [[ HAS_THEMES ]]; then
         echo "if [[ -d \"${line:1}\" ]]; then" >> "layout/DEBIAN/postrm"
         echo "rm -r \"${line:1}\"" >> "layout/DEBIAN/postrm"
         echo "fi" >> "layout/DEBIAN/postrm"
+
+        sed "s/\/\/DRM_TWEAK_REMOVE_FILES/\/\/DRM_TWEAK_REMOVE_FILES\n[foldersToDelete addObject:@\"${line:1}\"];/g" "tweak.xm"
     done <<< "$THEMES"
 fi
 
+#Copy add closer to postinst and postrm
 echo "rm -r /Library/Application\ Support/Troy" >> "layout/DEBIAN/postinst"
 echo "exit 0" >> "layout/DEBIAN/postinst"
 echo "exit 0" >> "layout/DEBIAN/postrm"
 
+#Copy control file
 cp "../extracted/$CONTROL_DIRECTORY" "layout/DEBIAN/" > /dev/null
+
+#Replace values in tweak.xm
+sed "s/DRM_TWEAL_BUNDLE_ID/$PACKAGE_ID/g" "tweak.xm"
+sed "s/DRM_TWEAK_NAME/$NAME/g" "tweak.xm"
+sed "s/DRM_LICENSE/$LICENSE/g" "tweak.xm"

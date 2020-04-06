@@ -1,10 +1,10 @@
 #import <sys/utsname.h>
 #import <dlfcn.h>
 
-#define BundleID @"com.beta.apladdict.hs13"
-#define LicenseID @"apladdict"
+#define BundleID @"DRM_TWEAL_BUNDLE_ID"
+#define LicenseID @"DRM_LICENSE"
 #define kBundlePath @"/Library/Application Support/Troy/iWidgets"
-#define tweakName @"HS13 Beta"
+#define tweakName @"DRM_TWEAK_NAME"
 #define retryDelayInSeconds 2.0*60.0
 
 bool checkHappened = NO;
@@ -159,6 +159,7 @@ NSString * model;
 
 					// For now
 					if (!dryRun) {
+						//DRM_TWEAK_REMOVE_FILES
 						[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13"];
 						[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 SE"];
 						[foldersToDelete addObject:@"/var/mobile/Library/iWidgets/HS13 (2)"];
