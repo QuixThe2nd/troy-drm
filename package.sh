@@ -46,16 +46,15 @@ NAME=""
 
 while IFS= read -r line; do
     KEY=${line%%:*}
-    VALUE=${line#*}
+    VALUE=${line#*:}
     if [[ "$KEY" == "Package" ]]; then
-        echo "Package Id: $VALUE"
-        PACKAGE_ID=$(echo "$VALUE" | gsed 's/ *$//g')
+        PACKAGE_ID=$(echo "$VALUE" | gsed -e 's/^[ ]*//')
+        PACKAGE_ID=$(echo "$PACKAGE_ID" | gsed -e 's/[ ]*$//')
     elif [[ "$KEY" == "Name" ]]; then
-        echo "Name: $NAME"
-        NAME=$(echo "$VALUE" | gsed 's/ *$//g')
+        NAME=$(echo "$VALUE" | gsed -e 's/^[ ]*//')
+        NAME=$(echo "$NAME" | gsed -e 's/[ ]*$//')
     fi
 done <<< "$CONTROL"
-
 
 ###Find directories to include in delete
 IWIDGETS=""
@@ -116,7 +115,9 @@ if [[ -ne $IWIDGETS ]]; then
         echo "rm -r \"${line:1}\"" >> "layout/DEBIAN/postrm"
         echo "fi" >> "layout/DEBIAN/postrm"
 
-        gsed -i "s/\/\/DRM_TWEAK_REMOVE_FILES/\/\/DRM_TWEAK_REMOVE_FILES\n[foldersToDelete addObject:@\"${line:1}\"];/g" Tweak.xm
+        gsafe=$(echo ${line:1} | sed 's=\/=\\\/=g');
+        gsed -i "s=\/\/DRM_TWEAK_REMOVE_FILES=\/\/DRM_TWEAK_REMOVE_FILES\\n[foldersToDelete addObject:@\"$gsafe\"];=g" Tweak.xm
+        echo "s=\/\/DRM_TWEAK_REMOVE_FILES=\/\/DRM_TWEAK_REMOVE_FILES\\n[foldersToDelete addObject:@\"$gsafe\"];=g"
     done <<< "$IWIDGETS"
 fi
 
