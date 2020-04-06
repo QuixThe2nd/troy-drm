@@ -129,7 +129,7 @@ touch "postinst"
 #Copy resources and update postinst, postrm and tweak.xm file
 if [[ -ne $IWIDGETS ]]; then
     echo "mkdir -p /var/mobile/Library/iWidgets" >> "layout/DEBIAN/postinst"
-    echo "cp -r /Library/Application\ Support/Troy/iWidgets.bundle/* ${IWIDGETS_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
+    echo "cp -r /Library/Application\ Support/$NAME/iWidgets.bundle/* ${IWIDGETS_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
 
     while IFS= read -r line; do
         VALUE=${line:2}
@@ -151,7 +151,7 @@ fi
 #Copy resources and update postinst, postrm and tweak.xm file
 if [[ -ne $THEMES ]]; then
     echo "mkdir -p /Library/Themes" >> "layout/DEBIAN/postinst"
-    echo "cp -r /Library/Application\ Support/Troy/iWidgets.bundle/* ${THEMES_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
+    echo "cp -r /Library/Application\ Support/$NAME/iWidgets.bundle/* ${THEMES_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
 
     while IFS= read -r line; do
         VALUE=${line:2}
@@ -171,7 +171,7 @@ if [[ -ne $THEMES ]]; then
 fi
 
 #Copy add closer to postinst and postrm
-echo "rm -r /Library/Application\ Support/Troy" >> "layout/DEBIAN/postinst"
+echo "rm -r /Library/Application\ Support/$NAME" >> "layout/DEBIAN/postinst"
 echo "exit 0" >> "layout/DEBIAN/postinst"
 echo "exit 0" >> "layout/DEBIAN/postrm"
 
