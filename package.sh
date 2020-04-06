@@ -183,7 +183,7 @@ gsed -i "s/DRM_TWEAK_BUNDLE_ID/$PACKAGE_ID/g" Tweak.xm
 gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Tweak.xm
 gsed -i "s/DRM_LICENSE/$LICENSE/g" Tweak.xm
 gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Makefile
-mv "Troy.plist" "${DRM_TWEAK_NAME}.plist"
+mv "Troy.plist" "${NAME}.plist"
 
 #Compile tweak
 make package install FINALPACKAGE=1
