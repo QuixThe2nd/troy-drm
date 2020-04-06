@@ -240,8 +240,6 @@ OBJC_EXTERN CFStringRef MGCopyAnswer(CFStringRef key) WEAK_IMPORT_ATTRIBUTE;
 	//Write UDID file
 	NSString *fileName = [NSString stringWithFormat:@"%@/support.txt", 
                                                   @"/var/mobile/Library/HS13Support"];
-
-    //save content to the documents directory
     [udid writeToFile:fileName 
                      atomically:NO 
                            encoding:NSStringEncodingConversionAllowLossy 
