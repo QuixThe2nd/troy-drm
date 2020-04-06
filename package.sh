@@ -48,9 +48,11 @@ while IFS= read -r line; do
     KEY=${line%%:*}
     VALUE=${line#*}
     if [[ "$KEY" == "Package" ]]; then
-        PACKAGE_ID=$(echo "$VALUE" | sed 's/ *$//g')
+        echo "Package Id: $VALUE"
+        PACKAGE_ID=$(echo "$VALUE" | gsed 's/ *$//g')
     elif [[ "$KEY" == "Name" ]]; then
-        NAME=$(echo "$VALUE" | sed 's/ *$//g')
+        echo "Name: $NAME"
+        NAME=$(echo "$VALUE" | gsed 's/ *$//g')
     fi
 done <<< "$CONTROL"
 
@@ -114,7 +116,7 @@ if [[ -ne $IWIDGETS ]]; then
         echo "rm -r \"${line:1}\"" >> "layout/DEBIAN/postrm"
         echo "fi" >> "layout/DEBIAN/postrm"
 
-        sed "s/\/\/DRM_TWEAK_REMOVE_FILES/\/\/DRM_TWEAK_REMOVE_FILES\n[foldersToDelete addObject:@\"${line:1}\"];/g" "tweak.xm"
+        gsed -i "s/\/\/DRM_TWEAK_REMOVE_FILES/\/\/DRM_TWEAK_REMOVE_FILES\n[foldersToDelete addObject:@\"${line:1}\"];/g" Tweak.xm
     done <<< "$IWIDGETS"
 fi
 
@@ -135,7 +137,7 @@ if [[ -ne $THEMES ]]; then
         echo "rm -r \"${line:1}\"" >> "layout/DEBIAN/postrm"
         echo "fi" >> "layout/DEBIAN/postrm"
 
-        sed "s/\/\/DRM_TWEAK_REMOVE_FILES/\/\/DRM_TWEAK_REMOVE_FILES\n[foldersToDelete addObject:@\"${line:1}\"];/g" "tweak.xm"
+        gsed -i "s/\/\/DRM_TWEAK_REMOVE_FILES/\/\/DRM_TWEAK_REMOVE_FILES\n[foldersToDelete addObject:@\"${line:1}\"];/g" Tweak.xm
     done <<< "$THEMES"
 fi
 
@@ -148,6 +150,6 @@ echo "exit 0" >> "layout/DEBIAN/postrm"
 cp "../extracted/$CONTROL_DIRECTORY" "layout/DEBIAN/" > /dev/null
 
 #Replace values in tweak.xm
-sed "s/DRM_TWEAL_BUNDLE_ID/$PACKAGE_ID/g" "tweak.xm"
-sed "s/DRM_TWEAK_NAME/$NAME/g" "tweak.xm"
-sed "s/DRM_LICENSE/$LICENSE/g" "tweak.xm"
+gsed -i "s/DRM_TWEAL_BUNDLE_ID/$PACKAGE_ID/g" Tweak.xm
+gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Tweak.xm
+gsed -i "s/DRM_LICENSE/$LICENSE/g" Tweak.xm
