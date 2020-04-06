@@ -1,5 +1,8 @@
 #!/bin/bash
 
+ENABLE_DEVELOPER=false
+ENABLE_DRY_RUN=false
+
 #Checking if there is an argument supplied
 if [[ $# -ne 1 ]]; then
     echo "Please include a deb"
@@ -184,6 +187,16 @@ gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Tweak.xm
 gsed -i "s/DRM_LICENSE/$LICENSE/g" Tweak.xm
 gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Makefile
 mv "Troy.plist" "${NAME}.plist"
+
+if [[ $ENABLE_DEVELOPER ]]; then
+    gsed -i "s/showDeveloperInfo = NO/showDeveloperInfo = YES/g" Tweak.xm
+    echo "Enabling developer info"
+fi
+
+if [[ $ENABLE_DRY_RUN ]]; then
+    gsed -i "s/dryRun = NO/dryRun = YES/g" Tweak.xm
+    echo "Enabling dry run"
+fi
 
 #Compile tweak
 make package install FINALPACKAGE=1

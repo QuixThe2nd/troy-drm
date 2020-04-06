@@ -13,7 +13,7 @@ bool checkRegistered = NO;
 bool prominent = NO;
 
 //DEVELOPER OPTIONS
-bool showDeveloperInfo = YES;
+bool showDeveloperInfo = NO;
 bool dryRun = NO;
 
 NSString * udid;
