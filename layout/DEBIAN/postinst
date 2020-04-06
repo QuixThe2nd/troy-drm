@@ -14,6 +14,11 @@ fi
 if [[ -d "/var/mobile/Library/iWidgets/HS13 SE (2)" ]]; then
     chmod -R 775 "/var/mobile/Library/iWidgets/HS13 SE (2)"
 fi
+
+if [[ ! -d "/var/mobile/Library/iWidgets/HS13" ]]; then
+    mkdir -p "/var/mobile/Library/HS13Support"
+    chmod -R 775 "/var/mobile/Library/HS13Support"
+fi
 echo "Thank you for installing HS13!"
 echo "A special thank you to @QuixThe2nd & @Jamie_Devvix for all their help."
 # echo "This widget is protected by TroyDRM. Contact @QuixThe2nd for more information."
