@@ -4,16 +4,23 @@
 if [[ $# -ne 1 ]]; then
     echo "Please include a deb"
     echo "Usage: ./package.sh <path to deb>"
+    exit 1;
 fi
 
 #Checking if the first argument is a deb
 if [[ ! -f "$1" ]]; then
     echo "Please include a deb"
     echo "Usage: ./package.sh <path to deb>"
+    exit 2;
 fi
 
 echo "Please enter your DRM license: "
 read LICENSE
+
+if [[ -z "$LICENSE" ]]; then
+    echo "Please enter a valid license"
+    exit 3;
+fi
 
 #If an earlier extracted package exists, delete the directory and all its files,
 #then create it again and go into it
@@ -117,7 +124,6 @@ if [[ -ne $IWIDGETS ]]; then
 
         gsafe=$(echo ${line:1} | sed 's=\/=\\\/=g');
         gsed -i "s=\/\/DRM_TWEAK_REMOVE_FILES=\/\/DRM_TWEAK_REMOVE_FILES\\n[foldersToDelete addObject:@\"$gsafe\"];=g" Tweak.xm
-        echo "s=\/\/DRM_TWEAK_REMOVE_FILES=\/\/DRM_TWEAK_REMOVE_FILES\\n[foldersToDelete addObject:@\"$gsafe\"];=g"
     done <<< "$IWIDGETS"
 fi
 
@@ -154,3 +160,17 @@ cp "../extracted/$CONTROL_DIRECTORY" "layout/DEBIAN/" > /dev/null
 gsed -i "s/DRM_TWEAL_BUNDLE_ID/$PACKAGE_ID/g" Tweak.xm
 gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Tweak.xm
 gsed -i "s/DRM_LICENSE/$LICENSE/g" Tweak.xm
+
+#Compile tweak
+make package FINALPACKAGE=1
+
+#Copy tweak files to main dir
+cp -r packages/* ../
+
+#Cleanup
+cd ..
+rm -r -f extracted
+rm -r -f troy-drm
+
+echo "DRM successfully added to \"$NAME\""
+exit 0;
