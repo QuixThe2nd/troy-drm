@@ -1,12 +1,26 @@
 #!/bin/bash
 
-ENABLE_DEVELOPER=false
-ENABLE_DRY_RUN=false
+ENABLE_DEVELOPER="false"
+ENABLE_DRY_RUN="false"
+INSTALL_ON_SUCCESS="false"
+
+for arg in "$@"; do
+    if [[ "$arg" == "-d" || "$arg" == "--dry-run" ]]; then
+        ENABLE_DRY_RUN="true"
+    elif [[ "$arg" == "-i" || "$arg" == "--developer-info" ]]; then
+        ENABLE_DEVELOPER="true"
+    elif [[ "$arg" == "-o" || "$arg" == "--install-on-success" ]]; then
+        INSTALL_ON_SUCCESS="true"
+    fi
+done
 
 #Checking if there is an argument supplied
-if [[ $# -ne 1 ]]; then
+if [[ $# -lt 1 ]]; then
     echo "Please include a deb"
-    echo "Usage: ./package.sh <path to deb>"
+    echo "Usage: ./package.sh <path to deb> <options>"
+    echo "Options: --dry-run -d"
+    echo "Options: --developer-info -i"
+    echo "Options: --install-on-success -o"
     exit 1;
 fi
 
@@ -14,6 +28,9 @@ fi
 if [[ ! -f "$1" ]]; then
     echo "Please include a deb"
     echo "Usage: ./package.sh <path to deb>"
+    echo "Options: --dry-run -d"
+    echo "Options: --developer-info -i"
+    echo "Options: --install-on-success -o"
     exit 2;
 fi
 
@@ -188,26 +205,31 @@ gsed -i "s/DRM_LICENSE/$LICENSE/g" Tweak.xm
 gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Makefile
 mv "Troy.plist" "${NAME}.plist"
 
-if [[ $ENABLE_DEVELOPER ]]; then
+if [[ "$ENABLE_DEVELOPER" == "true" ]]; then
     gsed -i "s/showDeveloperInfo = NO/showDeveloperInfo = YES/g" Tweak.xm
     echo "Enabling developer info"
 fi
 
-if [[ $ENABLE_DRY_RUN ]]; then
+if [[ "$ENABLE_DRY_RUN" == "true" ]]; then
     gsed -i "s/dryRun = NO/dryRun = YES/g" Tweak.xm
     echo "Enabling dry run"
 fi
 
+
 #Compile tweak
-make package install FINALPACKAGE=1
+if [[ "$INSTALL_ON_SUCCESS" == "true" ]]; then
+    make package install FINALPACKAGE=1
+else
+    make package FINALPACKAGE=1
+fi
 
 #Copy tweak files to main dir
 cp -r packages/* ../
 
 #Cleanup
-#cd ..
-#rm -r -f extracted
-#rm -r -f troy-drm
+cd ..
+rm -r -f extracted
+rm -r -f troy-drm
 
 echo "DRM successfully added to \"$NAME\""
 exit 0;
