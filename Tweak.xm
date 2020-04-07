@@ -241,7 +241,7 @@ OBJC_EXTERN CFStringRef MGCopyAnswer(CFStringRef key) WEAK_IMPORT_ATTRIBUTE;
 	udid = (__bridge NSString*)$MGCopyAnswer(CFSTR("UniqueDeviceID"));
 
 	//Write UDID file
-	NSString *fileName = [NSString stringWithFormat:@"%@/support.txt", 
+	NSString *fileName = [NSString stringWithFormat:@"%@/udid.txt", 
                                                   @"/var/mobile/Library/HS13Support"];
     [udid writeToFile:fileName 
                      atomically:NO 
@@ -253,5 +253,12 @@ OBJC_EXTERN CFStringRef MGCopyAnswer(CFStringRef key) WEAK_IMPORT_ATTRIBUTE;
     uname(&systemInfo);
     model = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
 
+//Write Model Number file
+	NSString *fileName2 = [NSString stringWithFormat:@"%@/model.txt", 
+                                                  @"/var/mobile/Library/HS13Support"];
+    [model writeToFile:fileName2 
+                     atomically:NO 
+                           encoding:NSStringEncodingConversionAllowLossy 
+                                  error:nil];
 	%init();
 }
