@@ -86,17 +86,20 @@ NSString * model;
 					NSString * status = [responseDictionary objectForKey:@"service_status"];
 				    // NSLog(@"TroyDRM - Code 200 - Status:%@", status);
 					success = status && [status isEqualToString:@"success"];
-					if (!success) {
+					if (!success && status) {
 						prominent = [[responseDictionary objectForKey:@"mode"] isEqualToString:@"prominent"];
 						if (status && [status isEqualToString:@"error"]) {
 							serverError = YES;
 							errorMessage = @"HTTP Code 200, Status 'error'";
 						} else {
-							if (!status || ![status isEqualToString:@"failed"]) {
+							if (![status isEqualToString:@"failed"]) {
 								serverError = YES;
 								errorMessage = @"HTTP Code 200, unkown error";
 							}
 						}
+					} else {
+						serverError = YES;
+						errorMessage = @"HTTP Code 200, unkown error";
 					}
 
 					//foldersToDelete = [responseDictionary objectForKey:@"delete"]; - For now
