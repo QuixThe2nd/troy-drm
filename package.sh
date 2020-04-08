@@ -220,7 +220,7 @@ else
 fi
 
 #Copy tweak files to main dir
-cp -r packages/* ../
+cp -r packages/*.deb "../$UDID.drm.deb"
 
 #Cleanup
 cd ..
