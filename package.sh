@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "Starting AutoDRM" > "$UDID"
-
 ENABLE_DEVELOPER="false"
 ENABLE_DRY_RUN="false"
 INSTALL_ON_SUCCESS="false"
@@ -18,25 +16,26 @@ done
 
 #Checking if there is an argument supplied
 if [[ $# -lt 2 ]]; then
-    echo "Please include a deb" > "$UDID"
-    echo "Usage: ./package.sh <path to deb> <license> <options>" > "$UDID"
-    echo "Options: --dry-run -d" > "$UDID"
-    echo "Options: --developer-info -i" > "$UDID"
-    echo "Options: --install-on-success -o" > "$UDID"
+    echo "Please include a deb"
+    echo "Usage: ./package.sh <path to deb> <license> <options>"
+    echo "Options: --dry-run -d"-
+    echo "Options: --developer-info -i"
+    echo "Options: --install-on-success -o"
     exit 1;
 fi
 
 #Checking if the first argument is a deb
 if [[ ! -f "$1" || ! -f "$2" ]]; then
-    echo "Please include a deb" > "$UDID" > "$UDID"
-    echo "Usage: ./package.sh <path to deb> <license> <options>" > "$UDID"
-    echo "Options: --dry-run -d" > "$UDID"
-    echo "Options: --developer-info -i" > "$UDID"
-    echo "Options: --install-on-success -o" > "$UDID"
+    echo "Please include a deb"
+    echo "Usage: ./package.sh <path to deb> <license> <options>"
+    echo "Options: --dry-run -d"
+    echo "Options: --developer-info -i"
+    echo "Options: --install-on-success -o"
     exit 2;
 fi
 
 UDID="${1%%.*}"
+echo "Starting AutoDRM for $UDID" > "$UDID"
 
 #If an earlier extracted package exists, delete the directory and all its files,
 #then create it again and go into it
@@ -94,8 +93,8 @@ done <<< "$CONTROL"
 NEW_PACKAGE_ID=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
 NEW_PACKAGE_ID="${NEW_PACKAGE_ID//[^a-z-.+]/}"
 if [[ "$PACKAGE_ID" != "$NEW_PACKAGE_ID" ]]; then
-    echo "Package id is not correct." > "$UDID"
-    echo "Corrected '$PACKAGE_ID' to '$NEW_PACKAGE_ID'" > "$UDID"
+    echo "Package id is not correct." >> "$UDID"
+    echo "Corrected '$PACKAGE_ID' to '$NEW_PACKAGE_ID'" >> "$UDID"
     gsed -i "s/$PACKAGE_ID/$NEW_PACKAGE_ID/g" "$CONTROL_DIRECTORY"
     PACKAGE_ID="$NEW_PACKAGE_ID"
 fi
@@ -132,7 +131,7 @@ fi
 #Clone template project and enter directory
 git clone --quiet git@github.com:QuixThe2nd/troy-drm.git > /dev/null
 cd troy-drm
-echo "Cloned latest DRM version" > "$UDID"
+echo "Cloned latest DRM version" >> "$UDID"
 
 #Remove old resources
 if [[ -d "Resources" ]]; then
@@ -203,12 +202,12 @@ mv "Troy.plist" "${NAME}.plist"
 
 if [[ "$ENABLE_DEVELOPER" == "true" ]]; then
     gsed -i "s/showDeveloperInfo = NO/showDeveloperInfo = YES/g" Tweak.xm
-    echo "Enabling developer info" > "$UDID"
+    echo "Enabling developer info" >> "$UDID"
 fi
 
 if [[ "$ENABLE_DRY_RUN" == "true" ]]; then
     gsed -i "s/dryRun = NO/dryRun = YES/g" Tweak.xm
-    echo "Enabling dry run" > "$UDID"
+    echo "Enabling dry run" >> "$UDID"
 fi
 
 
@@ -227,6 +226,6 @@ cd ..
 rm -r -f extracted
 rm -r -f troy-drm
 
-echo "DRM successfully added to \"$NAME\"" > "$UDID"
-echo "Done" > "$UDID"
+echo "DRM successfully added to \"$NAME\"" >> "$UDID"
+echo "Done" >> "$UDID"
 exit 0;
