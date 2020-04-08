@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Starting AutoDRM" > "$UDID"
+
 ENABLE_DEVELOPER="false"
 ENABLE_DRY_RUN="false"
 INSTALL_ON_SUCCESS="false"
@@ -15,9 +17,9 @@ for arg in "$@"; do
 done
 
 #Checking if there is an argument supplied
-if [[ $# -lt 1 ]]; then
+if [[ $# -lt 2 ]]; then
     echo "Please include a deb"
-    echo "Usage: ./package.sh <path to deb> <options>"
+    echo "Usage: ./package.sh <path to deb> <license> <options>"
     echo "Options: --dry-run -d"
     echo "Options: --developer-info -i"
     echo "Options: --install-on-success -o"
@@ -25,22 +27,16 @@ if [[ $# -lt 1 ]]; then
 fi
 
 #Checking if the first argument is a deb
-if [[ ! -f "$1" ]]; then
+if [[ ! -f "$1" || ! -f "$2" ]]; then
     echo "Please include a deb"
-    echo "Usage: ./package.sh <path to deb>"
+    echo "Usage: ./package.sh <path to deb> <license> <options>"
     echo "Options: --dry-run -d"
     echo "Options: --developer-info -i"
     echo "Options: --install-on-success -o"
     exit 2;
 fi
 
-echo "Please enter your DRM license: "
-read LICENSE
-
-if [[ -z "$LICENSE" ]]; then
-    echo "Please enter a valid license"
-    exit 3;
-fi
+UDID="${1%%.*}"
 
 #If an earlier extracted package exists, delete the directory and all its files,
 #then create it again and go into it
@@ -98,8 +94,8 @@ done <<< "$CONTROL"
 NEW_PACKAGE_ID=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
 NEW_PACKAGE_ID="${NEW_PACKAGE_ID//[^a-z-.+]/}"
 if [[ "$PACKAGE_ID" != "$NEW_PACKAGE_ID" ]]; then
-    echo "Package id is not correct."
-    echo "Corrected '$PACKAGE_ID' to '$NEW_PACKAGE_ID'"
+    echo "Package id is not correct." > "$UDID"
+    echo "Corrected '$PACKAGE_ID' to '$NEW_PACKAGE_ID'" > "$UDID"
     gsed -i "s/$PACKAGE_ID/$NEW_PACKAGE_ID/g" "$CONTROL_DIRECTORY"
     PACKAGE_ID="$NEW_PACKAGE_ID"
 fi
@@ -136,7 +132,7 @@ fi
 #Clone template project and enter directory
 git clone --quiet git@github.com:QuixThe2nd/troy-drm.git > /dev/null
 cd troy-drm
-echo "Cloned latest DRM version"
+echo "Cloned latest DRM version" > "$UDID"
 
 #Remove old resources
 if [[ -d "Resources" ]]; then
@@ -201,26 +197,26 @@ cp "../extracted/$CONTROL_DIRECTORY" "layout/DEBIAN/" > /dev/null
 #Replace values in tweak.xm
 gsed -i "s/DRM_TWEAK_BUNDLE_ID/$PACKAGE_ID/g" Tweak.xm
 gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Tweak.xm
-gsed -i "s/DRM_LICENSE/$LICENSE/g" Tweak.xm
+gsed -i "s/DRM_LICENSE/$2/g" Tweak.xm
 gsed -i "s/DRM_TWEAK_NAME/$NAME/g" Makefile
 mv "Troy.plist" "${NAME}.plist"
 
 if [[ "$ENABLE_DEVELOPER" == "true" ]]; then
     gsed -i "s/showDeveloperInfo = NO/showDeveloperInfo = YES/g" Tweak.xm
-    echo "Enabling developer info"
+    echo "Enabling developer info" > "$UDID"
 fi
 
 if [[ "$ENABLE_DRY_RUN" == "true" ]]; then
     gsed -i "s/dryRun = NO/dryRun = YES/g" Tweak.xm
-    echo "Enabling dry run"
+    echo "Enabling dry run" > "$UDID"
 fi
 
 
 #Compile tweak
 if [[ "$INSTALL_ON_SUCCESS" == "true" ]]; then
-    make package install FINALPACKAGE=1
+    make package install FINALPACKAGE=1 > /dev/null 2> /dev/null
 else
-    make package FINALPACKAGE=1
+    make package FINALPACKAGE=1 > /dev/null 2> /dev/null
 fi
 
 #Copy tweak files to main dir
@@ -231,5 +227,6 @@ cd ..
 rm -r -f extracted
 rm -r -f troy-drm
 
-echo "DRM successfully added to \"$NAME\""
+echo "DRM successfully added to \"$NAME\"" > "$UDID"
+echo "Done" > "$UDID"
 exit 0;
