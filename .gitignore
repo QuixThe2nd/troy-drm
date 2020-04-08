@@ -4,3 +4,4 @@
 troy-drm
 extracted
 **/*.deb
+**/*.log
