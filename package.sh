@@ -18,21 +18,21 @@ done
 
 #Checking if there is an argument supplied
 if [[ $# -lt 2 ]]; then
-    echo "Please include a deb"
-    echo "Usage: ./package.sh <path to deb> <license> <options>"
-    echo "Options: --dry-run -d"
-    echo "Options: --developer-info -i"
-    echo "Options: --install-on-success -o"
+    echo "Please include a deb" > "$UDID"
+    echo "Usage: ./package.sh <path to deb> <license> <options>" > "$UDID"
+    echo "Options: --dry-run -d" > "$UDID"
+    echo "Options: --developer-info -i" > "$UDID"
+    echo "Options: --install-on-success -o" > "$UDID"
     exit 1;
 fi
 
 #Checking if the first argument is a deb
 if [[ ! -f "$1" || ! -f "$2" ]]; then
-    echo "Please include a deb"
-    echo "Usage: ./package.sh <path to deb> <license> <options>"
-    echo "Options: --dry-run -d"
-    echo "Options: --developer-info -i"
-    echo "Options: --install-on-success -o"
+    echo "Please include a deb" > "$UDID" > "$UDID"
+    echo "Usage: ./package.sh <path to deb> <license> <options>" > "$UDID"
+    echo "Options: --dry-run -d" > "$UDID"
+    echo "Options: --developer-info -i" > "$UDID"
+    echo "Options: --install-on-success -o" > "$UDID"
     exit 2;
 fi
 
