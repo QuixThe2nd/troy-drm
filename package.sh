@@ -38,6 +38,7 @@ fi
 
 if [[ ! -d "received" ]]; then
     mkdir "received" > /dev/null
+    cd received
 fi
 
 UDID="${1%.*}"
