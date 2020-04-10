@@ -14,6 +14,11 @@ for arg in "$@"; do
     fi
 done
 
+if [[ ! -d "received" ]]; then
+    mkdir "received" > /dev/null
+    cd received
+fi
+
 #Checking if there is an argument supplied
 if [[ $# -lt 2 ]]; then
     echo "Error 1"
@@ -34,11 +39,6 @@ if [[ ! -f "$1" || -z "$2" ]]; then
     echo "Options: --developer-info -i"
     echo "Options: --install-on-success -o"
     exit 2;
-fi
-
-if [[ ! -d "received" ]]; then
-    mkdir "received" > /dev/null
-    cd received
 fi
 
 UDID="${1%.*}"
