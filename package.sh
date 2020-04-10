@@ -36,6 +36,10 @@ if [[ ! -f "$1" || -z "$2" ]]; then
     exit 2;
 fi
 
+if [[ ! -d "received" ]]; then
+    mkdir "received" > /dev/null
+fi
+
 UDID="${1%.*}"
 UDID="${UDID##*\/}"
 echo "Starting AutoDRM for $UDID" > "${UDID}.log"
