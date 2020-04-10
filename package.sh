@@ -14,10 +14,7 @@ for arg in "$@"; do
     fi
 done
 
-if [[ ! -d "received" ]]; then
-    mkdir "received" > /dev/null
-    cd received
-fi
+cd received
 
 #Checking if there is an argument supplied
 if [[ $# -lt 2 ]]; then
@@ -55,7 +52,7 @@ mkdir "extracted" > /dev/null
 cd "extracted"
 
 #Extract the control and data files
-ar -x "$1" > /dev/null
+ar -x "../$1" > /dev/null
 
 if [[ -f "control.tar.gz" ]]; then
     tar -xvf "control.tar.gz" > /dev/null
@@ -151,6 +148,7 @@ touch "postinst"
 
 #Copy resources and update postinst, postrm and tweak.xm file
 if [[ -ne $IWIDGETS ]]; then
+    echo "Found widgets" >> "../${UDID}.log"
     echo "mkdir -p /var/mobile/Library/iWidgets" >> "layout/DEBIAN/postinst"
     echo "cp -r /Library/Application\ Support/$NAME/iWidgets.bundle/* ${IWIDGETS_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
 
@@ -173,6 +171,7 @@ fi
 
 #Copy resources and update postinst, postrm and tweak.xm file
 if [[ -ne $THEMES ]]; then
+    echo "Found themes" >> "../${UDID}.log"
     echo "mkdir -p /Library/Themes" >> "layout/DEBIAN/postinst"
     echo "cp -r /Library/Application\ Support/$NAME/iWidgets.bundle/* ${THEMES_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
 
@@ -197,6 +196,7 @@ fi
 echo "rm -r /Library/Application\ Support/$NAME" >> "layout/DEBIAN/postinst"
 echo "exit 0" >> "layout/DEBIAN/postinst"
 echo "exit 0" >> "layout/DEBIAN/postrm"
+echo "Postrm and Postinst completed" >> "../${UDID}.log"
 
 #Copy control file
 cp "../extracted/$CONTROL_DIRECTORY" "layout/DEBIAN/" > /dev/null

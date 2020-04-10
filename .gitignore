@@ -5,3 +5,4 @@ troy-drm
 extracted
 **/*.deb
 **/*.log
+**/received
