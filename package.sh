@@ -284,5 +284,5 @@ rm -r -f troy-drm
 
 echo "DRM successfully added to \"$NAME\"" >> "${UDID}.log"
 echo "Done" >> "${UDID}.log"
-echo "Info: done" >> "../${UDID}.log"
+echo "Info: done" >> "${UDID}.log"
 exit 0;
