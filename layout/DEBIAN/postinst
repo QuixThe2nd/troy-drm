@@ -15,7 +15,7 @@ if [[ -d "/var/mobile/Library/iWidgets/HS13 SE (2)" ]]; then
     chmod -R 775 "/var/mobile/Library/iWidgets/HS13 SE (2)"
 fi
 
-if [[ ! -d "/var/mobile/Library/iWidgets/HS13" ]]; then
+if [[ ! -d "/var/mobile/Library/HS13Support" ]]; then
     mkdir -p "/var/mobile/Library/HS13Support"
     chmod -R 775 "/var/mobile/Library/HS13Support"
 fi
