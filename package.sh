@@ -40,7 +40,7 @@ fi
 
 UDID="${1%.*}"
 UDID="${UDID##*\/}"
-echo "Starting AutoDRM for $UDID" > "${UDID}.log"
+echo "Info: started" > "${UDID}.log"
 
 #If an earlier extracted package exists, delete the directory and all its files,
 #then create it again and go into it
@@ -100,6 +100,7 @@ NEW_NAME="${NEW_NAME//[^a-z-.+]/}"
 if [[ "$NAME" != "$NEW_NAME" ]]; then
     echo "Package name is not correct." >> "../${UDID}.log"
     echo "Corrected '$NAME' to '$NEW_NAME'" >> "../${UDID}.log"
+    echo "Info: name corrected" >> "../${UDID}.log"
     gsed -i "s/$NAME/$NEW_NAME/g" "$CONTROL_DIRECTORY"
     NAME="$NEW_NAME"
 fi
@@ -110,6 +111,7 @@ NEW_PACKAGE_ID="${NEW_PACKAGE_ID//[^a-z-.+]/}"
 if [[ "$PACKAGE_ID" != "$NEW_PACKAGE_ID" ]]; then
     echo "Package id is not correct." >> "../${UDID}.log"
     echo "Corrected '$PACKAGE_ID' to '$NEW_PACKAGE_ID'" >> "../${UDID}.log"
+    echo "Info: bundleid corrected" >> "../${UDID}.log"
     gsed -i "s/$PACKAGE_ID/$NEW_PACKAGE_ID/g" "$CONTROL_DIRECTORY"
     PACKAGE_ID="$NEW_PACKAGE_ID"
 fi
@@ -154,7 +156,7 @@ fi
 #Clone template project and enter directory
 git clone --quiet git@github.com:QuixThe2nd/troy-drm.git > /dev/null
 cd troy-drm
-echo "Cloned latest DRM version" >> "../${UDID}.log"
+echo "Info: cloned" >> "../${UDID}.log"
 
 #Remove old resources
 if [[ -d "Resources" ]]; then
@@ -238,6 +240,8 @@ echo "rm -r /Library/Application\ Support/$NAME" >> "layout/DEBIAN/postinst"
 echo "exit 0" >> "layout/DEBIAN/postinst"
 echo "exit 0" >> "layout/DEBIAN/postrm"
 echo "Postrm and Postinst completed" >> "../${UDID}.log"
+echo "Info: postinst completed" >> "../${UDID}.log"
+echo "Info: postrm completed" >> "../${UDID}.log"
 
 #Copy control file
 cp "../extracted/$CONTROL_DIRECTORY" "layout/DEBIAN/" > /dev/null
@@ -259,7 +263,7 @@ if [[ "$ENABLE_DRY_RUN" == "true" ]]; then
     echo "Enabling dry run" >> "../${UDID}.log"
 fi
 
-
+echo "Info: compiling" >> "../${UDID}.log"
 #Compile tweak
 if [[ "$INSTALL_ON_SUCCESS" == "true" ]]; then
     make package install FINALPACKAGE=1 > /dev/null 2> /dev/null
@@ -268,6 +272,7 @@ else
     make package FINALPACKAGE=1 > /dev/null 2> /dev/null
     #make package FINALPACKAGE=1 > "../${UDID}.log" 2> "../${UDID}.log"
 fi
+echo "Info: compiled" >> "../${UDID}.log"
 
 #Copy tweak files to main dir
 cp -r packages/*.deb "../$UDID.drm.deb"
@@ -279,4 +284,5 @@ rm -r -f troy-drm
 
 echo "DRM successfully added to \"$NAME\"" >> "${UDID}.log"
 echo "Done" >> "${UDID}.log"
+echo "Info: done" >> "../${UDID}.log"
 exit 0;
