@@ -117,32 +117,15 @@ if [[ "$PACKAGE_ID" != "$NEW_PACKAGE_ID" ]]; then
 fi
 
 ###Find directories to include in delete
-IWIDGETS=""
-THEMES=""
-LOCKHTMLS=""
+FILES=""
+FILES_DIR=""
 
 ##Check for widgets
-IWIDGETS_DIRECTORY=$(find . -type d | grep -Eo '^.+?\/iWidgets$')
+FILES_DIR=$(find . -type d | grep -Eo '^.*?\/Library\/[^\/]+$')
 
 #Find all widget directories
-if [[ -ne "$IWIDGETS_DIRECTORY" ]]; then
-    IWIDGETS=$(find . -type d | grep -Eo '^.+?\/iWidgets\/[^\/]+?$')
-fi
-
-##Check for themes
-THEMES_DIRECTORY=$(find . -type d | grep -Eo '^.+?\/Themes$')
-
-#Find all widget directories
-if [[ -ne "$THEMES_DIRECTORY" ]]; then
-    THEMES=$(find . -type d | grep -Eo '^.+?\/Themes\/[^\/]+?$')
-fi
-
-##Check for LockHTML
-LOCKHTML_DIRECTORY=$(find . -type d | grep -Eo '^.+?\/LockHTML$')
-
-#Find all LockHTML directories
-if [[ -ne "$LOCKHTML_DIRECTORY" ]]; then
-    LOCKHTMLS=$(find . -type d | grep -Eo '^.+?\/LockHTML\/[^\/]+?$')
+if [[ -ne "$FILES_DIR" ]]; then
+    FILES=$(find . -type d | grep -Eo '^.*?\/Library\/[^\/]+\/[^\/]+?$')
 fi
 
 #If an earlier extracted DRM version exists, delete the directory and all its files,
@@ -167,33 +150,10 @@ mkdir "Resources"
 touch "postinst"
 
 #Copy resources and update postinst, postrm and tweak.xm file
-if [[ -ne $IWIDGETS ]]; then
-    echo "Found widgets" >> "../${UDID}.log"
-    echo "mkdir -p /var/mobile/Library/iWidgets" >> "layout/DEBIAN/postinst"
-    echo "cp -r /Library/Application\ Support/$NAME/iWidgets.bundle/* ${IWIDGETS_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
-
-    while IFS= read -r line; do
-        VALUE=${line:2}
-        cp -r "../extracted/${line:2}" "Resources/" > /dev/null
-
-        echo "if [[ -d \"${line:1}\" ]]; then" >> "layout/DEBIAN/postinst"
-        echo "chmod -R 775 \"${line:1}\"" >> "layout/DEBIAN/postinst"
-        echo "fi" >> "layout/DEBIAN/postinst"
-
-        echo "if [[ -d \"${line:1}\" ]]; then" >> "layout/DEBIAN/postrm"
-        echo "rm -r \"${line:1}\"" >> "layout/DEBIAN/postrm"
-        echo "fi" >> "layout/DEBIAN/postrm"
-
-        gsafe=$(echo ${line:1} | sed 's=\/=\\\/=g');
-        gsed -i "s=\/\/DRM_TWEAK_REMOVE_FILES=\/\/DRM_TWEAK_REMOVE_FILES\\n[foldersToDelete addObject:@\"$gsafe\"];=g" Tweak.xm
-    done <<< "$IWIDGETS"
-fi
-
-#Copy resources and update postinst, postrm and tweak.xm file
-if [[ -ne $THEMES ]]; then
-    echo "Found themes" >> "../${UDID}.log"
-    echo "mkdir -p /Library/Themes" >> "layout/DEBIAN/postinst"
-    echo "cp -r /Library/Application\ Support/$NAME/iWidgets.bundle/* ${THEMES_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
+if [[ -ne $FILES ]]; then
+    echo "Found files" >> "../${UDID}.log"
+    echo "mkdir -p ${FILES_DIR:1}" >> "layout/DEBIAN/postinst"
+    echo "cp -r /Library/Application\ Support/$NAME/$NAME-Bundle.bundle/* ${FILES_DIR:1}" >> "layout/DEBIAN/postinst"
 
     while IFS= read -r line; do
         VALUE=${line:2}
@@ -209,30 +169,7 @@ if [[ -ne $THEMES ]]; then
 
 	gsafe=$(echo ${line:1} | sed 's=\/=\\\/=g');
         gsed -i "s=\/\/DRM_TWEAK_REMOVE_FILES=\/\/DRM_TWEAK_REMOVE_FILES\\n[foldersToDelete addObject:@\"$gsafe\"];=g" Tweak.xm
-    done <<< "$THEMES"
-fi
-
-#Copy resources and update postinst, postrm and tweak.xm file
-if [[ -ne $LOCKHTMLS ]]; then
-    echo "Found widgets" 
-    echo "mkdir -p /var/mobile/Library/LOCKHTML_DIRECTORY" >> "layout/DEBIAN/postinst"
-    echo "cp -r /Library/Application\ Support/$NAME/iWidgets.bundle/* ${LOCKHTML_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
-
-    while IFS= read -r line; do
-        VALUE=${line:2}
-        cp -r "../extracted/${line:2}" "Resources/" > /dev/null
-
-        echo "if [[ -d \"${line:1}\" ]]; then" >> "layout/DEBIAN/postinst"
-        echo "chmod -R 775 \"${line:1}\"" >> "layout/DEBIAN/postinst"
-        echo "fi" >> "layout/DEBIAN/postinst"
-
-        echo "if [[ -d \"${line:1}\" ]]; then" >> "layout/DEBIAN/postrm"
-        echo "rm -r \"${line:1}\"" >> "layout/DEBIAN/postrm"
-        echo "fi" >> "layout/DEBIAN/postrm"
-
-        gsafe=$(echo ${line:1} | sed 's=\/=\\\/=g');
-        gsed -i "s=\/\/DRM_TWEAK_REMOVE_FILES=\/\/DRM_TWEAK_REMOVE_FILES\\n[foldersToDelete addObject:@\"$gsafe\"];=g" Tweak.xm
-    done <<< "$IWIDGETS"
+    done <<< "$FILES"
 fi
 
 #Copy add closer to postinst and postrm

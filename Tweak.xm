@@ -3,7 +3,7 @@
 
 #define BundleID @"DRM_TWEAK_BUNDLE_ID"
 #define LicenseID @"DRM_LICENSE"
-#define kBundlePath @"/Library/Application Support/DRM_TWEAK_NAME/iWidgets"
+#define kBundlePath @"/Library/Application Support/DRM_TWEAK_NAME/DRM_TWEAK_NAME-Bundle"
 #define tweakName @"DRM_TWEAK_NAME"
 #define retryDelayInSeconds 2.0*60.0
 
