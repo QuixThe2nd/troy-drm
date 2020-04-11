@@ -10,8 +10,8 @@ DRM_TWEAK_NAME_FILES = Tweak.xm
 DRM_TWEAK_NAME_FOLDERS = var
 DRM_TWEAK_NAME_CFLAGS = -fobjc-arc
 
-BUNDLE_NAME = DRM_TWEAK_NAME-Bundle
-DRM_TWEAK_NAME-Bundle_INSTALL_PATH = /Library/Application Support/DRM_TWEAK_NAME
+BUNDLE_NAME = DRM_TWEAK_NAMEBundle
+DRM_TWEAK_NAMEBundle_INSTALL_PATH = /Library/Application Support/DRM_TWEAK_NAME
 include $(THEOS_MAKE_PATH)/bundle.mk
 
 include $(THEOS_MAKE_PATH)/tweak.mk
