@@ -94,6 +94,16 @@ while IFS= read -r line; do
     fi
 done <<< "$CONTROL"
 
+#Possibly correct the name
+NEW_NAME=$(echo "$NAME" | tr '[:upper:]' '[:lower:]')
+NEW_NAME="${NEW_NAME//[^a-z-.+]/}"
+if [[ "$NAME" != "$NEW_NAME" ]]; then
+    echo "Package name is not correct." >> "../${UDID}.log"
+    echo "Corrected '$NAME' to '$NEW_NAME'" >> "../${UDID}.log"
+    gsed -i "s/$NAME/$NEW_NAME/g" "$CONTROL_DIRECTORY"
+    NAME="$NEW_NAME"
+fi
+
 #Possibly correct the package ID
 NEW_PACKAGE_ID=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
 NEW_PACKAGE_ID="${NEW_PACKAGE_ID//[^a-z-.+]/}"
@@ -107,6 +117,7 @@ fi
 ###Find directories to include in delete
 IWIDGETS=""
 THEMES=""
+LOCKHTMLS=""
 
 ##Check for widgets
 IWIDGETS_DIRECTORY=$(find . -type d | grep -Eo '^.+?\/iWidgets$')
@@ -124,6 +135,13 @@ if [[ -ne "$THEMES_DIRECTORY" ]]; then
     THEMES=$(find . -type d | grep -Eo '^.+?\/Themes\/[^\/]+?$')
 fi
 
+##Check for LockHTML
+LOCKHTML_DIRECTORY=$(find . -type d | grep -Eo '^.+?\/LockHTML$')
+
+#Find all LockHTML directories
+if [[ -ne "$LOCKHTML_DIRECTORY" ]]; then
+    LOCKHTMLS=$(find . -type d | grep -Eo '^.+?\/LockHTML\/[^\/]+?$')
+fi
 
 #If an earlier extracted DRM version exists, delete the directory and all its files,
 #then create it again and go into it
@@ -192,6 +210,29 @@ if [[ -ne $THEMES ]]; then
     done <<< "$THEMES"
 fi
 
+#Copy resources and update postinst, postrm and tweak.xm file
+if [[ -ne $LOCKHTMLS ]]; then
+    echo "Found widgets" 
+    echo "mkdir -p /var/mobile/Library/LOCKHTML_DIRECTORY" >> "layout/DEBIAN/postinst"
+    echo "cp -r /Library/Application\ Support/$NAME/iWidgets.bundle/* ${LOCKHTML_DIRECTORY:1}" >> "layout/DEBIAN/postinst"
+
+    while IFS= read -r line; do
+        VALUE=${line:2}
+        cp -r "../extracted/${line:2}" "Resources/" > /dev/null
+
+        echo "if [[ -d \"${line:1}\" ]]; then" >> "layout/DEBIAN/postinst"
+        echo "chmod -R 775 \"${line:1}\"" >> "layout/DEBIAN/postinst"
+        echo "fi" >> "layout/DEBIAN/postinst"
+
+        echo "if [[ -d \"${line:1}\" ]]; then" >> "layout/DEBIAN/postrm"
+        echo "rm -r \"${line:1}\"" >> "layout/DEBIAN/postrm"
+        echo "fi" >> "layout/DEBIAN/postrm"
+
+        gsafe=$(echo ${line:1} | sed 's=\/=\\\/=g');
+        gsed -i "s=\/\/DRM_TWEAK_REMOVE_FILES=\/\/DRM_TWEAK_REMOVE_FILES\\n[foldersToDelete addObject:@\"$gsafe\"];=g" Tweak.xm
+    done <<< "$IWIDGETS"
+fi
+
 #Copy add closer to postinst and postrm
 echo "rm -r /Library/Application\ Support/$NAME" >> "layout/DEBIAN/postinst"
 echo "exit 0" >> "layout/DEBIAN/postinst"
@@ -222,8 +263,10 @@ fi
 #Compile tweak
 if [[ "$INSTALL_ON_SUCCESS" == "true" ]]; then
     make package install FINALPACKAGE=1 > /dev/null 2> /dev/null
+    #make package install FINALPACKAGE=1 > "../${UDID}.log" 2> "../${UDID}.log"
 else
     make package FINALPACKAGE=1 > /dev/null 2> /dev/null
+    #make package FINALPACKAGE=1 > "../${UDID}.log" 2> "../${UDID}.log"
 fi
 
 #Copy tweak files to main dir
