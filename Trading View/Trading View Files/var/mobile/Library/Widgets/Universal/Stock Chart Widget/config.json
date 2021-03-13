@@ -1,0 +1,94 @@
+{
+    "name": "Stock Chart",
+    "author": "AplAddict",
+    "size": {
+        "max-width": "500px",
+        "width": "100%",
+        "height": "160px"
+    },
+    "options": [
+        {
+            "text": "Style",
+            "type": "option",
+            "default": "dark",
+            "key": "dark",
+            "options": [
+                {
+                    "text": "Dark Mode",
+                    "value": "dark"
+                },
+                {
+                    "text": "Light Mode",
+                    "value": "light"
+                }
+            ]
+        },
+        {
+            "type": "text",
+            "text": "Ticker Symbol",
+            "default": "gme",
+            "key": "ticker",
+            "placeholder": "gme"
+        },
+        {
+            "text": "Time Range",
+            "type": "option",
+            "default": "1D",
+            "key": "range",
+            "options": [
+                {
+                    "text": "1D",
+                    "value": "1D"
+                },
+                {
+                    "text": "1M",
+                    "value": "1M"
+                },
+                {
+                    "text": "3M",
+                    "value": "3M"
+                },
+                {
+                    "text": "1Y",
+                    "value": "12M"
+                },
+                {
+                    "text": "5Y",
+                    "value": "60M"
+                },
+                {
+                    "text": "All",
+                    "value": "ALL"
+                }
+            ],
+            "comment": "Pick a time frame from the list above"
+        },
+        {
+            "type": "color",
+            "text": "Trend Line Color",
+            "default": "#37a6ef",
+            "key": "trendLineColor"
+        },
+        {
+            "type": "gap"
+        },
+        {
+            "type": "title",
+            "text": "Visit my website:"
+        },
+        {
+            "type": "link",
+            "text": "isaaczipperstein.com",
+            "url": "https://isaaczipperstein.com"
+        },
+        {
+            "type": "title",
+            "text": "Contact me:"
+        },
+        {
+            "type": "link",
+            "text": "Twitter @AplAddict",
+            "url": "https://twitter.com/AplAddict"
+        }
+    ]
+}

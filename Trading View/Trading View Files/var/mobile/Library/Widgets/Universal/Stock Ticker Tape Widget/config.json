@@ -1,0 +1,305 @@
+{
+    "name": "Stock Ticker Tape",
+    "author": "AplAddict",
+    "size": {
+        "max-width": "500px",
+        "width": "100%",
+        "height": "76px"
+    },
+    "options": [
+        {
+            "text": "Style",
+            "type": "option",
+            "default": "dark",
+            "key": "dark",
+            "options": [
+                {
+                    "text": "Dark Mode",
+                    "value": "dark"
+                },
+                {
+                    "text": "Light Mode",
+                    "value": "light"
+                }
+            ]
+        },
+        {
+            "type": "switch",
+            "text": "Show Symbol Logo",
+            "default": true,
+            "key": "logo"
+        },
+        {
+            "type": "gap"
+        },
+        {
+            "type": "title",
+            "text": "Required"
+        },
+        {
+            "type": "page",
+            "text": "Ticker #1",
+            "options": [
+                {
+                    "type": "title",
+                    "text": "Ticker #1"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Symbol",
+                    "default": "FOREXCOM:SPXUSD",
+                    "key": "ticker1",
+                    "placeholder": "FOREXCOM:SPXUSD"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Title",
+                    "default": "S&P 500",
+                    "key": "ticker1title",
+                    "placeholder": "S&P 500"
+                }
+            ]
+        },
+        {
+            "type": "page",
+            "text": "Ticker #2",
+            "options": [
+                {
+                    "type": "title",
+                    "text": "Ticker #2"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Symbol",
+                    "default": "FOREXCOM:NSXUSD",
+                    "key": "ticker2",
+                    "placeholder": "FOREXCOM:NSXUSD"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Title",
+                    "default": "Nasdaq 100",
+                    "key": "ticker2title",
+                    "placeholder": "Nasdaq 100"
+                }
+            ]
+        },
+        {
+            "type": "page",
+            "text": "Ticker #3",
+            "options": [
+                {
+                    "type": "title",
+                    "text": "Ticker #3"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Symbol",
+                    "default": "FX_IDC:EURUSD",
+                    "key": "ticker3",
+                    "placeholder": "FX_IDC:EURUSD"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Title",
+                    "default": "EUR/USD",
+                    "key": "ticker3title",
+                    "placeholder": "EUR/USD"
+                }
+            ]
+        },
+        {
+            "type": "page",
+            "text": "Ticker #4",
+            "options": [
+                {
+                    "type": "title",
+                    "text": "Ticker #4"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Symbol",
+                    "default": "BITSTAMP:BTCUSD",
+                    "key": "ticker4",
+                    "placeholder": "BITSTAMP:BTCUSD"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Title",
+                    "default": "BTC/USD",
+                    "key": "ticker4title",
+                    "placeholder": "BTC/USD"
+                }
+            ]
+        },
+        {
+            "type": "page",
+            "text": "Ticker #5",
+            "options": [
+                {
+                    "type": "title",
+                    "text": "Ticker #5"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Symbol",
+                    "default": "BITSTAMP:ETHUSD",
+                    "key": "ticker5",
+                    "placeholder": "BITSTAMP:ETHUSD"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Title",
+                    "default": "ETH/USD",
+                    "key": "ticker5title",
+                    "placeholder": "ETH/USD"
+                }
+            ]
+        },
+        {
+            "type": "title",
+            "text": "Optional (leave blank to hide)"
+        },
+        {
+            "type": "page",
+            "text": "Ticker #6",
+            "options": [
+                {
+                    "type": "title",
+                    "text": "Ticker #6"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Symbol",
+                    "default": "aapl",
+                    "key": "ticker6",
+                    "placeholder": "aapl"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Title",
+                    "default": "Apple",
+                    "key": "ticker6title",
+                    "placeholder": "Apple"
+                }
+            ]
+        },
+        {
+            "type": "page",
+            "text": "Ticker #7",
+            "options": [
+                {
+                    "type": "title",
+                    "text": "Ticker #7"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Symbol",
+                    "default": "fsr",
+                    "key": "ticker7",
+                    "placeholder": "fsr"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Title",
+                    "default": "Fisker",
+                    "key": "ticker7title",
+                    "placeholder": "Fisker"
+                }
+            ]
+        },
+        {
+            "type": "page",
+            "text": "Ticker #8",
+            "options": [
+                {
+                    "type": "title",
+                    "text": "Ticker #8"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Symbol",
+                    "default": "arkk",
+                    "key": "ticker8",
+                    "placeholder": "arkk"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Title",
+                    "default": "ARKK",
+                    "key": "ticker8title",
+                    "placeholder": "ARKK"
+                }
+            ]
+        },
+        {
+            "type": "page",
+            "text": "Ticker #9",
+            "options": [
+                {
+                    "type": "title",
+                    "text": "Ticker #9"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Symbol",
+                    "default": "msft",
+                    "key": "ticker9",
+                    "placeholder": "msft"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Title",
+                    "default": "Microsoft",
+                    "key": "ticker9title",
+                    "placeholder": "Microsoft"
+                }
+            ]
+        },
+        {
+            "type": "page",
+            "text": "Ticker #10",
+            "options": [
+                {
+                    "type": "title",
+                    "text": "Ticker #10"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Symbol",
+                    "default": "gme",
+                    "key": "ticker10",
+                    "placeholder": "gme"
+                },
+                {
+                    "type": "text",
+                    "text": "Ticker Title",
+                    "default": "Gamestop",
+                    "key": "ticker10title",
+                    "placeholder": "Gamestop"
+                }
+            ]
+        },
+        {
+            "type": "gap"
+        },
+        {
+            "type": "title",
+            "text": "Visit my website:"
+        },
+        {
+            "type": "link",
+            "text": "isaaczipperstein.com",
+            "url": "https://isaaczipperstein.com"
+        },
+        {
+            "type": "title",
+            "text": "Contact me:"
+        },
+        {
+            "type": "link",
+            "text": "Twitter @AplAddict",
+            "url": "https://twitter.com/AplAddict"
+        }
+    ]
+}

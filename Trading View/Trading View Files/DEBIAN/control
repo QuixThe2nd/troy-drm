@@ -1,0 +1,9 @@
+Package: com.apladdict.tradingview 
+Name: TradingView iOS Widget
+Architecture: iphoneos-arm
+Depends: com.matchstic.xenhtml
+Description: Simple stock and crypto ticker tape and chart widgets with info from tradingview.com
+Maintainer: AplAddict <izip14@gmail.com>
+Author: AplAddict <izip14@gmail.com>
+Section: Widgets
+Version: 1.2
