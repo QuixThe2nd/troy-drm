@@ -1,0 +1,15 @@
+#!/bin/sh
+mkdir -p /var/mobile/Library/iWidgets
+cp -r /Library/Application\ Support/CirBat/iWidgets.bundle/* /var/mobile/Library/iWidgets/
+rm -r /Library/Application\ Support/CirBat
+if [[ -d "/var/mobile/Library/iWidgets/CirBat" ]]; then
+    chmod -R 775 "/var/mobile/Library/iWidgets/CirBat"
+fi
+
+if [[ ! -d "/var/mobile/Library/CirBatSupport" ]]; then
+    mkdir -p "/var/mobile/Library/CirBatSupport"
+    chmod -R 775 "/var/mobile/Library/CirBatSupport"
+fi
+echo "Thank you for installing CirBat"
+# echo "This widget is protected by TroyDRM. Contact @QuixThe2nd for more information."
+exit 0

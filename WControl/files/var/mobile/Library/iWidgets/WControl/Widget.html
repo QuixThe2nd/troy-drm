@@ -1,0 +1,229 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>WControl</title>
+    <script type="text/javascript" charset="utf-8" src="Config.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+
+<body>
+    <div id="mySidenav" class="sidenav">
+        <div class="items">
+
+            <a href="javascript:void(0)" onclick="nav()"><br><i class="fa fa-times fa-fw"></i><br></a>
+
+            <a href="mk1://runscript/apladdict/airplanemode" id="airplanemode"><br><i
+                    class="fa fa-plane fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/wifi" id="wifi"><br><i class="fa fa-wifi fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/bluetooth" id="bluetooth"><br><i
+                    class="fab fa-bluetooth-b fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/data" id="data"><br><i class="fa fa-broadcast-tower fa-fw"></i><br></a>
+
+            <a href="mk1://runscript/apladdict/toggleview" id="toggleview"><br><i
+                    class="fa fa-adjust fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/orientation" id="orientation"><br><i
+                    class="fa fa-sync-alt fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/ringer" id="ringer"><br><i class="fa fa-bell fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/lpm" id="lpm"><br><i class="fa fa-battery-empty fa-fw"></i><br></a>
+
+            <a href="mk1://runscript/apladdict/respring" id="respring"><br><i
+                    class="fa fa-spinner fa-pulse fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/power" id="power"><br><i class="fa fa-power-off fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/safemode" id="safemode"><br><i class="fa fa-hard-hat fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/lock" id="lock"><br><i class="fa fa-lock fa-fw"></i><br></a>
+
+            <a href="mk1://runscript/apladdict/flashlight" id="flashlight"><br><i
+                    class="fa fa-low-vision fa-fw"></i><br></a>
+
+            <a href="mk1://runscript/apladdict/volumeup" id="volumeup"><br><i class="fa fa-volume-up fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/volumedown" id="volumedown"><br><i
+                    class="fa fa-volume-down fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/play" id="play"><br><i class="fa fa-play
+ fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/last" id="last"><br><i class="fa fa-step-backward
+ fa-fw"></i><br></a>
+            <a href="mk1://runscript/apladdict/next" id="next"><br><i class="fa fa-step-forward
+ fa-fw"></i><br></a>
+
+
+            <a href="mk1://runscript/apladdict/prefs" id="prefs"><br><i class="fa fa-sliders-h fa-fw"></i><br></a>
+
+        </div>
+    </div>
+    <span id="open" onclick="nav()">&#9776;&#9776;&#9776;</span>
+</body>
+<style>
+    .items {
+        margin: 0;
+        text-align: center;
+        margin-top: -12px;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    .items a {
+        margin-bottom: 72px;
+    }
+
+    .sidenav {
+        height: 80%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        right: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        transition: 0.5s;
+        padding-top: 60px;
+        text-align: center;
+        border-radius: 20px;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    .sidenav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .sidenav a {
+        padding: 8px 8px 8px 8px;
+        text-decoration: none;
+        font-size: 30px;
+        color: #818181;
+        transition: 0.3s;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    @media screen and (max-height: 450px) {
+        .sidenav {
+            padding-top: 15px;
+        }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+    }
+
+    #open {
+        right: 0;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        font-size: 30px;
+        cursor: pointer;
+        width: 20px;
+        overflow-wrap: break-word;
+        line-height: 15px;
+    }
+</style>
+<script>
+    // Menu controller
+    var opened = false;
+    function nav() {
+        if (opened == false) {
+            opened = true;
+            document.getElementById("mySidenav").style.width = "65px";
+        } else {
+            opened = false;
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    }
+
+    // Mode
+    if (dark == false) document.body.style.filter = "invert(100%)";
+
+    // Display side
+    if (right == false) {
+        document.getElementById("mySidenav").style.right = "auto";
+        document.getElementById("mySidenav").style.left = "0";
+        document.getElementById("open").style.right = "auto";
+        document.getElementById("open").style.left = "0";
+    }
+
+    // Hide/show
+    var toggles = ["airplanemode", "wifi", "bluetooth", "data", "toggleview", "orientation", "ringer", "lpm", "respring", "power", "safemode", "lock", "flashlight", "volumeup", "volumedown", "play", "last", "next", "prefs"];
+    var toggles2 = [airplanemode, wifi, bluetooth, data, toggleview, orientation, ringer, lpm, respring, power, safemode, lock, flashlight, volumeup, volumedown, play, last, next, prefs];
+
+    toggles.forEach(checkEnabled);
+    function checkEnabled(item, index) {
+        if (toggles2[index] == false) {
+            document.getElementById(item).style.display = "none";
+        }
+    }
+
+    function mainUpdate(type) {
+        if (type == "music") {
+            if (isplaying) {
+                document.getElementById("play").innerHTML = "<br><i class='fa fa-pause fa-fw'></i><br>";
+            } else {
+                document.getElementById("play").innerHTML = "<br><i class='fa fa-play fa-fw'></i><br>";
+            }
+        }
+    }
+
+    // Long touch on lpm brings up battery view
+    var onlongtouch;
+    var timer;
+    var touchduration = 800; //length of time we want the user to touch before we do something
+    var scriptType = "";
+
+    function lpmtouchstart(e) {
+        scriptType = "devices";
+        touchstart(e);
+    }
+
+    function wifitouchstart(e) {
+        scriptType = "wifim";
+        touchstart(e);
+    }
+
+    function playtouchstart(e) {
+        if (document.getElementById("play").innerHTML != "<br><i class='fa fa-pause fa-fw'></i><br>") {
+            scriptType = "media";
+            touchstart(e);
+        }
+    }
+
+    function touchstart(e) {
+        e.preventDefault();
+        if (!timer) {
+            timer = setTimeout(onlongtouch, touchduration);
+        }
+    }
+
+    function touchend() {
+        //stops short touches from firing the event
+        if (timer) {
+            clearTimeout(timer);
+            timer = null;
+        }
+    }
+
+    onlongtouch = function () {
+        timer = null;
+        location = 'mk1://runscript/apladdict/' + scriptType;
+        scriptType = "";
+    };
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        document.getElementById('lpm').addEventListener("touchstart", lpmtouchstart, false);
+        document.getElementById('lpm').addEventListener("touchend", touchend, false);
+        document.getElementById('wifi').addEventListener("touchstart", wifitouchstart, false);
+        document.getElementById('wifi').addEventListener("touchend", touchend, false);
+        document.getElementById('play').addEventListener("touchstart", playtouchstart, false);
+        document.getElementById('play').addEventListener("touchend", touchend, false);
+    });
+</script>
+
+</html>

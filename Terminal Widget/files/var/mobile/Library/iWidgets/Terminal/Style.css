@@ -1,0 +1,223 @@
+body {
+    top: 0px;
+    margin: 0;
+    padding: 0;
+    font-family: fiesta;
+    text-transform: normal;
+    color: #f7f7f7;
+    letter-spacing: 0.5;
+    transform: translateY(-70px);
+}
+
+@font-face {
+    font-family: galano;
+    src: url(Stuff/Galano.otf);
+}
+
+@font-face {
+    font-family: fiesta;
+    src: url(Stuff/courier.otf);
+}
+
+@font-face {
+    font-family: channel;
+    src: url(Stuff/channel.ttf);
+}
+
+#time {
+    position: absolute;
+    top: 132.5px;
+    left: 6.75%;
+    width: 375px;
+    height: 66.7px;
+    text-align: left;
+    z-index: 50;
+    font-size: 10px;
+    font-family: fiesta;
+    color: #000;
+}
+
+#text1 {
+    position: absolute;
+    top: 120px;
+    left: 6.75%;
+    width: 377px;
+    text-align: left;
+    z-index: 50;
+    font-size: 10px;
+    font-family: fiesta;
+    color: #000;
+}
+
+#text2 {
+    position: absolute;
+    top: 107.5px;
+    left: 6.75%;
+    width: 300px;
+    text-align: left;
+    z-index: 50;
+    font-size: 10px;
+    font-family: fiesta;
+    color: #000;
+}
+
+#text3 {
+    position: absolute;
+    top: 145px;
+    left: 6.75%;
+    width: 400px;
+    text-align: left;
+    z-index: 51;
+    font-size: 9.9px;
+    color: #000;
+}
+
+#R {
+    position: absolute;
+    top: 85px;
+    left: 5%;
+    width: 90%;
+    height: 190px;
+    z-index: -80;
+    background-color: #fff;
+    border-radius: 6px;
+    border: 0.5px solid #999;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+}
+
+#R2 {
+    position: absolute;
+    top: 85px;
+    left: 5%;
+    width: 90%;
+    height: 15px;
+    z-index: -80;
+    background-color: #e0e0e0;
+    border-radius: 6px;
+    border: 0.5px solid #999;
+    opacity: 1;
+}
+
+#R3 {
+    position: absolute;
+    top: 95px;
+    left: 5%;
+    width: 90%;
+    height: 10px;
+    z-index: -80;
+    background-color: #e0e0e0;
+    border-radius: 0px;
+    border: 0.5px solid #999;
+    opacity: 1;
+}
+
+#R4 {
+    position: absolute;
+    top: 92.5px;
+    left: 5.2%;
+    width: 90%;
+    height: 10px;
+    z-index: -80;
+    background-color: #e0e0e0;
+    border-radius: 0px;
+    border: 0px solid #999;
+    opacity: 1;
+}
+
+#red {
+    position: absolute;
+    top: 89.5px;
+    left: 6.75%;
+    width: 11px;
+    height: 11px;
+    z-index: -80;
+    background-color: #FF0000;
+    border-radius: 150px;
+    border: 0.5px solid #CC0000;
+    opacity: 1;
+}
+
+#yellow {
+    position: absolute;
+    top: 89.5px;
+    left: 11.75%;
+    width: 11px;
+    height: 11px;
+    z-index: -80;
+    background-color: #edca00;
+    border-radius: 150px;
+    border: 0.5px solid #dcba00;
+    opacity: 1;
+}
+
+#green {
+    position: absolute;
+    top: 89.5px;
+    left: 16.75%;
+    width: 11px;
+    height: 11px;
+    z-index: -80;
+    background-color: #2DD000;
+    border-radius: 150px;
+    border: 0.5px solid #2CC000;
+    opacity: 1;
+}
+
+#batt {
+    position: absolute;
+    top: 157.5px;
+    left: 6.75%;
+    width: 377px;
+    text-align: left;
+    z-index: 50;
+    font-size: 6px;
+    font-family: fiesta;
+    color: #000;
+}
+
+#input {
+    position: absolute;
+    top: 250px;
+    left: 6.75%;
+    width: 100%;
+    text-align: left;
+    z-index: 52;
+    font-size: 9.9px;
+    color: #000;
+}
+
+#command {
+    width: 68%;
+    color: #999;
+}
+
+#submit {
+    width: 18%;
+    color: #999;
+}
+
+#userInput {
+    position: absolute;
+    top: 170px;
+    left: 6.75%;
+    width: 86%;
+    height: 80px;
+    text-align: left;
+    z-index: 52;
+    font-size: 9.9px;
+    color: #000;
+    border-bottom: 0.1px solid #999;
+    overflow-y: scroll;
+}
+
+button,
+input {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    margin-top: none;
+}

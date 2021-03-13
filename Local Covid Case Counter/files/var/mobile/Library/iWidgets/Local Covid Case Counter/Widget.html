@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Local Covid Case Counter</title>
+<script type="text/javascript" charset="utf-8" src="Config.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
+ <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
+<body>
+<div id="main">
+<h2>CORONAVIRUS 🦠</h2>
+<div id="div" style="
+overflow: hidden; margin: 0;width:400px;">
+
+</div>
+<h3>(COVID-19) 😷</h3>
+</div>
+</body>
+<style>
+html, body {
+margin: 0;
+margin-left: -17px;
+margin-top: -15px;
+font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+}
+#main {
+background-color: white;
+margin: 0;
+height: 100%;
+width: 100%;
+margin: 0;
+padding:10px;
+padding-right: 30px;
+border-radius: 20px;
+}
+h2 {
+margin-top: -4px;
+margin-left: 6px;
+padding: 0;
+margin-bottom: 0;
+}
+h3 {
+margin-left: 7px;
+padding: 0;
+margin-top: 0;
+margin-bottom: 5px;
+}
+#since {
+width: 30%;
+height: 20px;
+background-color:white;
+}
+</style>
+<script>
+function mainUpdate(type) {
+if (type == 'weather') {
+    $.getJSON('https://api.weather.com/v3/location/search?query=' + weather.city + '&locationType=city&language=en-US&format=json&apiKey=5424e9662cbf4bc3a4e9662cbf4bc3fe', function(data) {
+document.getElementById("div").innerHTML = "<center><iframe id='frame' is='x-frame-bypass' scrolling='no' src='https://weather.com/Coronavirus/l/" + data.location.placeId[0] + "'  style='width:800px;height:730px;border: 0px none;margin-top:-415px; margin-left: -20px;'></iframe></center>";
+ 
+    })
+}
+}
+if (darkmode) {
+document. getElementById("main").style.backgroundColor = "black";
+document.body.style.color = "white";
+document.getElementById("div").style. filter = "invert(100%)";
+}
+document.body.style.transform = "scale(" + scale + ")";
+if (refresh > 0) {
+    setTimeout(function () {
+            window.location.reload(1);
+    }, refresh * 1000);
+}
+</script>
+</html>

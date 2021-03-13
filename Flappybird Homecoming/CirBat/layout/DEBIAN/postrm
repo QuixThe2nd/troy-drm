@@ -1,0 +1,5 @@
+#!/bin/sh
+if [[ -d "/var/mobile/Library/iWidgets/CirBat" ]]; then
+    rm -r "/var/mobile/Library/iWidgets/CirBat"
+fi
+exit 0

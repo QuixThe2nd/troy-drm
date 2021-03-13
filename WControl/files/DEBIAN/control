@@ -1,0 +1,9 @@
+Package: com.apladdict.wcontrol
+Name: WControl
+Architecture: iphoneos-arm
+Depends: com.matchstic.xenhtml, com.junesiphone.xeninfo, com.castyte.mk1, com.castyte.mk1xenhtml, com.apladdict.mk1
+Description: The first MK1 Widget! Control your iDevice straight from a widget. Requires MK1, MK1 XenHTML, XenInfo, and Xen HTML (WARNING⚠️ MK1 is still in beta).
+Maintainer: AplAddict <izip14@gmail.com>
+Author: AplAddict <izip14@gmail.com>
+Section: Widgets
+Version: 1.0.1

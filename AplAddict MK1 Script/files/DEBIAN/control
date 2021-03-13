@@ -1,0 +1,9 @@
+Package: com.apladdict.mk1
+Name: AplAddict MK1 Script
+Architecture: iphoneos-arm
+Depends: com.castyte.mk1, com.castyte.mk1xenhtml
+Description: AplAddict MK1 script for MK1 widgets.
+Maintainer: AplAddict <izip14@gmail.com>
+Author: AplAddict <izip14@gmail.com>
+Section: Scripts
+Version: 1.0

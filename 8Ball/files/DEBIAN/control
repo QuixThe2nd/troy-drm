@@ -1,0 +1,9 @@
+Package: com.apladdict.8ball
+Name: 8Ball
+Architecture: iphoneos-arm
+Depends: com.matchstic.xenhtml
+Description: An iOS magic 8 ball widget.
+Maintainer: AplAddict <izip14@gmail.com>
+Author: AplAddict <izip14@gmail.com>
+Section: Widgets
+Version: 1.0

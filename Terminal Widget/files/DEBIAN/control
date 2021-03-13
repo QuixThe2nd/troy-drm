@@ -1,0 +1,9 @@
+Package: com.apladdict.terminal
+Name: Terminal Widget
+Architecture: iphoneos-arm
+Depends: com.matchstic.xenhtml, com.junesiphone.xeninfo, com.castyte.mk1, com.castyte.mk1xenhtml, com.apladdict.mk1
+Description: Terminal directly on your homescreen
+Maintainer: AplAddict <izip14@gmail.com>
+Author: AplAddict <izip14@gmail.com>
+Section: Widgets
+Version: 1.0.1

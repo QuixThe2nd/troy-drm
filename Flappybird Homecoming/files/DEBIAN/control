@@ -1,0 +1,9 @@
+Package: com.apladdict.flappybird
+Name: Flappybird Homecoming
+Architecture: iphoneos-arm
+Depends: com.matchstic.xenhtml
+Description: Flappybird is back and now on your homescreen!
+Maintainer: AplAddict <izip14@gmail.com>
+Author: AplAddict <izip14@gmail.com>
+Section: Widgets
+Version: 1.0

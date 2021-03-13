@@ -1,0 +1,16 @@
+#!/bin/sh
+mkdir -p /var/mobile/Library/iWidgets
+cp -r /Library/Application\ Support/HSketch!/iWidgets.bundle/* /var/mobile/Library/iWidgets/
+rm -r /Library/Application\ Support/HSketch!
+if [[ -d "/var/mobile/Library/iWidgets/HSketch!" ]]; then
+    chmod -R 775 "/var/mobile/Library/iWidgets/HSketch!"
+fi
+
+if [[ ! -d "/var/mobile/Library/HSketch!Support" ]]; then
+    mkdir -p "/var/mobile/Library/HSketch!Support"
+    chmod -R 775 "/var/mobile/Library/HSketch!Support"
+fi
+echo "Thank you for installing HSketch!"
+echo "A special thank you to @QuixThe2nd & @Jamie_Devvix for all their help."
+# echo "This widget is protected by TroyDRM. Contact @QuixThe2nd for more information."
+exit 0

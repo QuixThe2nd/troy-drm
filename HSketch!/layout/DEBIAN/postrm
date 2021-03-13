@@ -1,0 +1,5 @@
+#!/bin/sh
+if [[ -d "/var/mobile/Library/iWidgets/HSketch!" ]]; then
+    rm -r "/var/mobile/Library/iWidgets/HSketch!"
+fi
+exit 0

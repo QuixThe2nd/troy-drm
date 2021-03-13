@@ -1,0 +1,9 @@
+Package: com.apladdict.lccc
+Name: Local Covid Case Counter
+Architecture: iphoneos-arm
+Depends: com.matchstic.xenhtml
+Description: Local Covid Case Counter- gets your county/states COVID-19 statistics from weather.com
+Maintainer: AplAddict <izip14@gmail.com>
+Author: AplAddict <izip14@gmail.com>
+Section: Widgets
+Version: 1.0.3

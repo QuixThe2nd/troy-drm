@@ -1,0 +1,9 @@
+Package: com.apladdict.stopwidget
+Name: Stopwidget
+Architecture: iphoneos-arm
+Depends: com.matchstic.xenhtml
+Description: A simple iOS stopwatch widget.
+Maintainer: AplAddict <izip14@gmail.com>
+Author: AplAddict <izip14@gmail.com>
+Section: Widgets
+Version: 1.0

@@ -1,0 +1,1 @@
+var transparent = false; // Makes background transparent

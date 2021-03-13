@@ -1,0 +1,136 @@
+<html>
+
+<head>
+    <title>Terminal</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="Style.css" type="text/css" media="screen" />
+    <script type="text/javascript" charset="utf-8" src="Config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="Scripts/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="Scripts/main.js"></script>
+    <script type="text/javascript" charset="utf-8" src="Scripts/lang.js"></script>
+</head>
+
+<body onload="init()">
+    <div id="text">
+        <div id="batt">
+            <a id="LevelDisplay">__%</a> <a id="StateDisplay">Battstate</a>
+        </div>
+
+        <div id="time">
+            <a id="weekday"></a>
+            <a id="month"></a>
+            <a id="date"></a>
+            <a id="hour"></a>:
+            <a id="minute"></a>:
+            <a id="second"></a>
+            <a id="year"></a>
+        </div>
+
+        <div id="text1"><a id="custom">iPhone</a>:~ mobile$ date</div>
+
+        <div id="text2">Last login: A Few Moment Ago on ttys000</div>
+
+        <div id="text3"><a id="custom2">iPhone</a>:~ mobile$ </div>
+
+        <div id="userInput">
+            <a id="custom3">iPhone</a>:~ mobile$
+        </div>
+
+        <div id="input">
+            <input id="command" type="text" autocapitalize="off" placeholder="Type help for a list of commands"><button id="submit" onclick="run()">run</button>
+            </span>
+        </div>
+
+        <div id="R"></div>
+
+        <div id="R2"></div>
+
+        <div id="R3"></div>
+
+        <div id="R4"></div>
+
+        <div id="red"></div>
+
+        <div id="yellow"></div>
+
+        <div id="green"></div>
+
+
+
+
+        <script type="text/javascript">
+            function mainUpdate(type) {
+                if (type == "battery") {
+                    document.getElementById('LevelDisplay').innerHTML = batteryPercent + "%";
+                    document.getElementById('StateDisplay').innerHTML = (batteryCharging) ? "Charging" : "Discharging";
+                }
+            }
+        </script>
+        <script>
+            document.getElementById("custom").innerHTML = Phone;
+            document.getElementById("custom2").innerHTML = Phone;
+            document.getElementById("custom3").innerHTML = Phone;
+
+            if (Size == false) {
+                document.getElementById("R").style.height = "190px";
+            }
+            if (Size == true) {
+                document.getElementById("R").style.height = "90px";
+                document.getElementById("input").style.display = "none";
+                document.getElementById("userInput").style.display = "none";
+            }
+
+            if (customColors) {
+                if (textColor) {
+                    document.getElementById("batt").style.color = textColor;
+                    document.getElementById("time").style.color = textColor;
+                    document.getElementById("text1").style.color = textColor;
+                    document.getElementById("text2").style.color = textColor;
+                    document.getElementById("text3").style.color = textColor;
+                    document.getElementById("userInput").style.color = textColor;
+                }
+                if (backgroundColor) {
+                    document.getElementById("R").style.background = backgroundColor;
+                }
+            } else {
+                if (DarkMode == false) {
+                    document.getElementById("R").style.background = "#fff";
+                    document.getElementById("text").style.color = "#000";
+                } else if (DarkMode == true) {
+                    document.getElementById("R").style.background = "#222";
+                    document.getElementById("batt").style.color = "#fff";
+                    document.getElementById("time").style.color = "#fff";
+                    document.getElementById("text1").style.color = "#fff";
+                    document.getElementById("text2").style.color = "#fff";
+                    document.getElementById("text3").style.color = "#fff";
+                    document.getElementById("R").style.opacity = "0.9";
+                    document.getElementById("userInput").style.color = "white";
+                }
+            }
+        </script>
+        <script>
+            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var shortdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var shortmonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var hourtext = ["12", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+        </script>
+        <script>
+            (function() {
+                'use strict';
+                if (window.innerWidth === 320) {
+                    document.querySelector("meta[name=viewport]").setAttribute('content', 'width=device-width, initial-scale=0.85, maximum-scale=0.85, user-scalable=0');
+                } else if (window.innerWidth === 414) {
+                    document.querySelector("meta[name=viewport]").setAttribute('content', 'width=device-width, initial-scale=1.104, maximum-scale=1.104, user-scalable=0');
+                } else if (window.innerWidth === 425) {
+                    document.querySelector("meta[name=viewport]").setAttribute('content', 'width=device-width, initial-scale=1.133, maximum-scale=1.133, user-scalable=0');
+                } else if (window.innerWidth === 432) {
+                    document.querySelector("meta[name=viewport]").setAttribute('content', 'width=device-width, initial-scale=1.152, maximum-scale=1.152, user-scalable=0');
+                }
+            }());
+        </script>
+</body>
+
+</html>

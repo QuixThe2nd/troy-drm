@@ -1,0 +1,9 @@
+Package: com.apladdict.cirbat
+Name: CirBat
+Architecture: iphoneos-arm
+Depends: com.matchstic.xenhtml
+Description: An iOS animated battery widget.
+Maintainer: AplAddict <izip14@gmail.com>
+Author: AplAddict <izip14@gmail.com>
+Section: Widgets
+Version: 1.0
